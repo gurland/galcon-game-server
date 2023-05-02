@@ -5,11 +5,11 @@ import "reflect-metadata";
 import {createNewUser, authenticateUser} from "./controllers/auth";
 
 dotenv.config();
+const PORT = process.env.PORT;
 
+// Express application routers
 const app: Express = express();
 app.use(express.json());
-
-const port = process.env.PORT;
 
 app.get("/", (req: Request, res: Response) => {
   res.send({"message": "Healthcheck OK."});
@@ -18,6 +18,8 @@ app.get("/", (req: Request, res: Response) => {
 app.post("/users", createNewUser);
 app.post("/tokens", authenticateUser);
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running at http://localhost:${PORT}`);
 });
+
+// Socket IO handlers
