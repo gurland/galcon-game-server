@@ -21,9 +21,11 @@ export class User {
   getJWTToken(): string {
     // Generate a JWT token for the new user
     return jwt.sign(
-      { sub: this.id },
+      { 
+        sub: this.id,
+        username: this.username 
+      },
       process.env.JWT_SECRET as string
     );
   }
-
 }
