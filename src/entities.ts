@@ -1,4 +1,4 @@
-interface Room {
+export interface Room {
   id: number;
   users: User[];
   map: PlanetMap;
