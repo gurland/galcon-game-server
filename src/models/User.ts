@@ -28,4 +28,11 @@ export class User {
       process.env.JWT_SECRET as string
     );
   }
+
+  toJSON() {
+    return {
+      id: this.id,
+      username: this.username,
+    }
+  }
 }
