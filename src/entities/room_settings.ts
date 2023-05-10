@@ -7,8 +7,12 @@ export class RoomSettings {
   private _minPlanetProduction: number = 50;
   private _maxPlanetProduction: number = 200;
 
-  constructor(planetCount: number, speed: number) {
+  constructor(planetCount: number, width: number, height: number, minPlanetProduction: number, maxPlanetProduction: number, speed: number) {
     this._planetCount = planetCount;
+    this._width = width;
+    this._height = height;
+    this._minPlanetProduction = minPlanetProduction;
+    this._maxPlanetProduction = maxPlanetProduction;
     this._speed = speed;
 
     const gameRectArea = this._width * this._height;

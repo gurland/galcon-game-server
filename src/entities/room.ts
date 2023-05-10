@@ -11,14 +11,14 @@ export class Room {
   private _chat: Chat;
   private _settings: RoomSettings;
 
-  constructor(id: number, owner: User) {
+  constructor(id: number, owner: User, settings: RoomSettings) {
     this._id = id;
     this._owner = owner;
     this._users = [];
 
     this._chat = new Chat();
-    this._settings = new RoomSettings(10, 0.05);
-    this._map = PlanetMap.generateMap(this._settings);
+    this._settings = settings;
+    this._map = PlanetMap.generateMap(settings);
   }
 
   public toJSON(): any {

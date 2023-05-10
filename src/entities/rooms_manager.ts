@@ -1,5 +1,6 @@
 import {Room} from "./room";
 import {User} from "../models/User";
+import {RoomSettings} from "./room_settings";
 
 interface RoomMap {
   [id: number]: Room
@@ -46,9 +47,9 @@ export class RoomsManager {
     return this._rooms[roomId];
   }
 
-  public addRoom(owner: User): Room {
+  public addRoom(owner: User, settings: RoomSettings): Room {
     const newId: number = this.getNextId();
-    this._rooms[newId] = new Room(newId, owner);
+    this._rooms[newId] = new Room(newId, owner, settings);
 
     return this._rooms[newId];
   }
