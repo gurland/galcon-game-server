@@ -1,18 +1,33 @@
 import express, { Express, Request, Response } from "express";
-import { AppDataSource } from "../models/data-source";
-import { User } from "../models/User";
+import {RoomsManager} from "../entities/rooms_manager";
+import {Room} from "../entities/room";
 
-import bcrypt from "bcrypt";
+// Authorization: Bearer JWT_TOKEN
 
+// RoomSpeed =
+// RoomResolution
+
+
+// JWT - My user ID - My User Name
+
+// GET /api/rooms/{roomId}
+// getRooms -> Room:
+// users: [1, 2, 3, 4]
+// ownerId: 3
+// client adds "Start game" button
 
 const createNewRoom = async (req: Request, res: Response) => {
-    res.json({  });
-  }
+  const newRoom: Room = RoomsManager.getManager().addRoom(req.user!);
+  return res.json(newRoom);
+}
 
 
+//  Refresh button
 const getRooms =  async (req: Request, res: Response) => {
-    return res.json({  });
-  }
+  return res.json(
+      RoomsManager.getManager().getRooms()
+  );
+}
 
 export {
   createNewRoom,
