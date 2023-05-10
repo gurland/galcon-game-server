@@ -22,10 +22,6 @@ app.get("/api", (req: Request, res: Response) => {
 app.post("/api/users", createNewUser);
 app.post("/api/tokens", authenticateUser);
 
-let rooms = [];
-
-rooms.push();
-
 app.post("/api/rooms", jwtAuthMiddleware, createNewRoom);
 app.get("/api/rooms", jwtAuthMiddleware, getRooms);
 
