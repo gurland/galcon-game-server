@@ -1,4 +1,5 @@
 import express, { Express, Request, Response } from "express";
+import cors from "cors";
 import dotenv from "dotenv";
 import "reflect-metadata";
 
@@ -12,6 +13,7 @@ const PORT = process.env.PORT;
 // Express application routers
 const app: Express = express();
 app.use(express.json());
+app.use(cors());
 
 app.get("/api", (req: Request, res: Response) => {
   res.send({"message": "Healthcheck OK."});
