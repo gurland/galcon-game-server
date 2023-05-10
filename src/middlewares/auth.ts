@@ -1,36 +1,37 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-
-interface JwtAuthCredentials {
-  username: string;
-}
+import {User} from "../models/User";
+import {AppDataSource} from "../models/data-source";
 
 declare global {
   namespace Express {
     interface Request {
-      jwtAuth?: JwtAuthCredentials;
+      user?: User
     }
   }
 }
 
-export function jwtAuthMiddleware(req: Request, res: Response, next: NextFunction): void {
+export const jwtAuthMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader: string | undefined = req.headers.authorization;
 
-  if (authHeader) {
-    const token: string = authHeader.split(' ')[1];
-
-    try {
-      const decodedToken: any = jwt.verify(token, process.env.JWT_SECRET as string);
-
-      req.jwtAuth = {
-        username: decodedToken.username
-      };
-    } catch (error) {
-      // Handle token verification errors
-      res.sendStatus(401);
-      return;
-    }
+  if (!authHeader) {
+    return res.status(401).json({ message: 'No Authorization header provided!' });
   }
 
-  next();
-}
+  const token: string = authHeader.split(' ')[1];
+
+  try {
+    const decodedToken: any = jwt.verify(token, process.env.JWT_SECRET as string);
+    const user = await AppDataSource.manager.findOneBy(User, { username: decodedToken.username });
+
+    if (!user) {
+      return res.status(401).json({ message: 'User does not exist!' });
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    // Handle token verification errors
+    return res.status(401).json({ message: `Wrong JWT token! ${error}` });
+  }
+};
