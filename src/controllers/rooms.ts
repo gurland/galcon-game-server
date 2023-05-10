@@ -51,7 +51,15 @@ const getRooms =  async (req: Request, res: Response) => {
   );
 }
 
+const getRoomById =  async (req: Request, res: Response) => {
+  return res.json(
+      RoomsManager.getManager().getRoomById(parseInt(req.params.roomId))
+  );
+}
+
+
 export {
   createNewRoom,
-  getRooms
+  getRooms,
+  getRoomById
 }

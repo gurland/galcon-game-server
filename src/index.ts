@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import "reflect-metadata";
 
 import {createNewUser, authenticateUser} from "./controllers/auth";
-import {createNewRoom, getRooms} from "./controllers/rooms";
+import {createNewRoom, getRooms, getRoomById} from "./controllers/rooms";
 import {jwtAuthMiddleware} from "./middlewares/auth"
 
 dotenv.config();
@@ -28,6 +28,9 @@ rooms.push();
 
 app.post("/api/rooms", jwtAuthMiddleware, createNewRoom);
 app.get("/api/rooms", jwtAuthMiddleware, getRooms);
+
+app.get("/api/rooms/:roomId", jwtAuthMiddleware, getRoomById);
+
 
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
