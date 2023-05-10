@@ -13,19 +13,19 @@ const PORT = process.env.PORT;
 const app: Express = express();
 app.use(express.json());
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/api", (req: Request, res: Response) => {
   res.send({"message": "Healthcheck OK."});
 });
 
-app.post("/users", createNewUser);
-app.post("/tokens", authenticateUser);
+app.post("/api/users", createNewUser);
+app.post("/api/tokens", authenticateUser);
 
 let rooms = [];
 
 rooms.push();
 
-app.post("/rooms", jwtAuthMiddleware, createNewRoom);
-app.get("/rooms", jwtAuthMiddleware, getRooms);
+app.post("/api/rooms", jwtAuthMiddleware, createNewRoom);
+app.get("/api/rooms", jwtAuthMiddleware, getRooms);
 
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
