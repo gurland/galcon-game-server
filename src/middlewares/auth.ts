@@ -35,3 +35,24 @@ export const jwtAuthMiddleware = async (req: Request, res: Response, next: NextF
     return res.status(401).json({ message: `Wrong JWT token! ${error}` });
   }
 };
+
+// export const socketIOJwtAuthMiddleware = async (socket, next) => {
+//   if (socket.handshake.auth && socket.handshake.auth.token){
+//     try {
+//       const decodedToken: any = jwt.verify(socket.handshake.query.token, process.env.JWT_SECRET as string);
+//       const user = await AppDataSource.manager.findOneBy(User, { username: decodedToken.username });
+
+//       if (!user) {
+//         return next(new Error('Authentication error. User does not exist.'))
+//       }
+
+//       socket.data.user = user.id;
+//       next();
+//     } catch (error) {
+//       next(new Error(`Authentication error: ${error}`));
+//     }
+//   }
+//   else {
+//     next(new Error('Authentication error'));
+//   }
+// }

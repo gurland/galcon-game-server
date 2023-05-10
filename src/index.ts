@@ -7,6 +7,8 @@ import {createNewUser, authenticateUser} from "./controllers/auth";
 import {createNewRoom, getRooms, getRoomById} from "./controllers/rooms";
 import {jwtAuthMiddleware} from "./middlewares/auth"
 
+
+
 dotenv.config();
 const PORT = process.env.PORT;
 
@@ -33,3 +35,28 @@ app.listen(PORT, () => {
 });
 
 // Socket IO handlers
+// const httpServer = createServer(app);
+
+// const io = new Server<
+//   ClientToServerEvents,
+//   ServerToClientEvents,
+//   InterServerEvents,
+//   SocketData
+// >();
+
+
+// const roomsNamespace = io.of("/rooms");
+
+// // SocketIO.Socket<ClientToServerEvents, ServerToClientEvents>
+
+// roomsNamespace.use((socker, next) => {next()});
+
+// roomsNamespace.on("connection", (socket) => {
+
+//   // const roomId = socket.handshake.query.roomId as string;
+//   // socket.data.roomId = 1;
+//   //
+//   // socket.join(roomId);
+//   //
+//   // // io.to(roomId).emit("");
+// });

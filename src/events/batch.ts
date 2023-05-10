@@ -1,5 +1,6 @@
 // Game Protocol (/ws/room/)
 // Client emits & server broadcasts
+type UUID = string;
 
 interface BatchSendEvent {
   id: UUID;

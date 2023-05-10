@@ -3,18 +3,18 @@ import {
   Socket as SocketIOSocket, 
   Server as SocketIOServer
 } from "socket.io";
-import { RoomUserJoin } from "./room";
+// import {RoomStateChangeEvent, RoomUserJoin} from "./room";
 
-export interface ServerToClientEvents {
+interface ServerToClientEvents {
   "BatchSendEvent": (event: BatchSendEvent) => void;
   "BatchRedirectEvent": (event: BatchRedirectEvent) => void;
-  "RoomStateChangeEvent": (event: RoomStateChangeEvent) => void;
-  "RoomUserJoin": (event: RoomUserJoin) => void;
+  // "RoomStateChangeEvent": (event: RoomStateChangeEvent) => void;
+  // "RoomUserJoin": (event: RoomUserJoin) => void;
   "BatchCollisionEvent": (event: BatchCollisionEvent) => void;
   "PlanetOccupiedEvent": (event: PlanetOccupiedEvent) => void;
 }
 
-export interface ClientToServerEvents {
+interface ClientToServerEvents {
   "BatchSendEvent": (event: BatchSendEvent) => void;
   "BatchRedirectEvent": (event: BatchRedirectEvent) => void;
 }
