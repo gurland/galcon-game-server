@@ -1,4 +1,4 @@
-import { User } from "../models/User"
+import {User} from "../models/User";
 
 enum RoomState {
   Init = "init",
@@ -7,7 +7,7 @@ enum RoomState {
 }
 
 export interface RoomStateChangeEvent {
-  state: RoomState
+  state: number
 }
 
 export interface RoomUserJoin {
