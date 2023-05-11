@@ -29,12 +29,12 @@ export class PlanetMap {
     return [x, y];
   }
 
-  public static detectPlanetCollision(planet1: Planet, planet2: Planet) {
+  public static detectPlanetCollision(planet1: Planet, planet2: Planet, distanceOffset: number) {
     const dx = planet1.x - planet2.x;
     const dy = planet1.y - planet2.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
 
-    return distance < planet1.radius + planet2.radius;
+    return distance < planet1.radius + planet2.radius + distanceOffset;
   }
 
   private generatePlanet(planetId: number): Planet {
@@ -49,7 +49,7 @@ export class PlanetMap {
       const planetRadius = planetProduction * (this._settings.maxPlanetRadius / this._settings.maxPlanetProduction);
       const newPlanet = new Planet(planetId, x, y, planetRadius, planetProduction);
       const collidedPlanets = this._planets.filter((existingPlanet) => {
-        return PlanetMap.detectPlanetCollision(existingPlanet, newPlanet);
+        return PlanetMap.detectPlanetCollision(existingPlanet, newPlanet, this._settings.distanceOffset);
       });
 
       if (collidedPlanets.length === 0) {

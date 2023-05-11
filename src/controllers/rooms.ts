@@ -25,7 +25,8 @@ const createNewRoom = async (req: Request, res: Response) => {
       height = 9,
       minPlanetProduction = 50,
       maxPlanetProduction = 200,
-      speed = 0.05
+      speed = 0.05,
+      distanceOffset = 0.3
     } = {}
   } = req.body;
 
@@ -36,7 +37,8 @@ const createNewRoom = async (req: Request, res: Response) => {
       height,
       minPlanetProduction,
       maxPlanetProduction,
-      speed
+      speed,
+      distanceOffset
     );
 
     const newRoom: Room = RoomsManager.getManager().addRoom(req.user!, roomSettings);

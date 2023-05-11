@@ -6,14 +6,16 @@ export class RoomSettings {
   private _maxPlanetRadius: number;
   private _minPlanetProduction: number = 50;
   private _maxPlanetProduction: number = 200;
+  private _distanceOffset: number = 1;
 
-  constructor(planetCount: number, width: number, height: number, minPlanetProduction: number, maxPlanetProduction: number, speed: number) {
+  constructor(planetCount: number, width: number, height: number, minPlanetProduction: number, maxPlanetProduction: number, speed: number, distanceOffset: number) {
     this._planetCount = planetCount;
     this._width = width;
     this._height = height;
     this._minPlanetProduction = minPlanetProduction;
     this._maxPlanetProduction = maxPlanetProduction;
     this._speed = speed;
+    this._distanceOffset = distanceOffset;
 
     const gameRectArea = this._width * this._height;
     const maxPlanetArea = gameRectArea / this._planetCount;
@@ -87,5 +89,13 @@ export class RoomSettings {
 
   set planetCount(value: number) {
     this._planetCount = value;
+  }
+
+  get distanceOffset(): number {
+    return this._distanceOffset;
+  }
+
+  set distanceOffset(value: number) {
+    this._distanceOffset = value;
   }
 }
