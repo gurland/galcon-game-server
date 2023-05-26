@@ -43,6 +43,10 @@ export class RoomsManager {
     return Object.keys(this._rooms).map(key => this._rooms[parseInt(key)]);
   }
 
+  public static getRoomById(roomId: number): Room | undefined {
+    return this.getManager().getRoomById(roomId);
+  }
+
   public getRoomById(roomId: number): Room | undefined {
     return this._rooms[roomId];
   }
