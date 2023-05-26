@@ -34,8 +34,14 @@ export class Room {
     };
   }
 
-  public addUser(userId: User): void {
-    this._users.push(userId);
+  public addUser(user: User): void {
+    this._users.push(user);
+  }
+
+  public getUserById(userId: number): User | undefined {
+    for (const user of this._users) {
+      if (user.id == userId) return user
+    }
   }
 
   get id(): number {
