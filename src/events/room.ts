@@ -1,6 +1,6 @@
 import {User} from "../models/User";
 
-enum RoomState {
+export enum RoomState {
   Init = "init",
   Start = "start",
   End = "end"
