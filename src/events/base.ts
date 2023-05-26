@@ -11,13 +11,13 @@ interface ClientToServerEvents {
   "BatchSendEvent": (event: BatchSendEvent) => void;
   "BatchRedirectEvent": (event: BatchRedirectEvent) => void;
   "RoomStateChangeEvent": (event: RoomStateChangeEvent) => void;
-  "RoomUserJoin": (event: RoomUserJoin) => void;
   "BatchCollisionEvent": (event: BatchCollisionEvent) => void;
   "PlanetOccupiedEvent": (event: PlanetOccupiedEvent) => void;
 }
 
 
 interface ServerToClientEvents {
+  "RoomUserJoin": (event: RoomUserJoin) => void;
   "BatchSendEvent": (event: BatchSendEvent) => void;
   "BatchRedirectEvent": (event: BatchRedirectEvent) => void;
 }
@@ -32,17 +32,17 @@ export interface SocketData {
   roomId: number;
 }
 
-export class Server extends SocketIOServer<
-  ServerToClientEvents,
+export class Socket extends SocketIOSocket<
   ClientToServerEvents,
+  ServerToClientEvents,
   InterServerEvents,
   SocketData
 > {}
 
 
-export class Socket extends SocketIOSocket<
-  ServerToClientEvents,
+export class Server extends SocketIOServer<
   ClientToServerEvents,
+  ServerToClientEvents,
   InterServerEvents,
   SocketData
 > {}
