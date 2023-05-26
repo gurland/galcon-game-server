@@ -2,6 +2,7 @@ import {User} from "../models/User";
 import {RoomSettings} from "./room_settings";
 import {PlanetMap} from "./planet_map";
 import {Chat} from "./chat"
+import {RoomState} from "../events/room";
 
 export class Room {
   private _id: number;
@@ -10,6 +11,7 @@ export class Room {
   private _map: PlanetMap;
   private _chat: Chat;
   private _settings: RoomSettings;
+  private _state: RoomState;
 
   constructor(id: number, owner: User, settings: RoomSettings) {
     this._id = id;
@@ -77,5 +79,13 @@ export class Room {
 
   set settings(value: RoomSettings) {
     this._settings = value;
+  }
+
+  get state(): RoomState {
+    return this._state;
+  }
+
+  set state(value: RoomState) {
+    this._state = value;
   }
 }
