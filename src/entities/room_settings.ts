@@ -30,7 +30,8 @@ export class RoomSettings {
       height: this._height,
       maxPlanetRadius: this._maxPlanetRadius,
       minPlanetProduction: this._minPlanetProduction,
-      maxPlanetProduction: this._maxPlanetProduction
+      maxPlanetProduction: this._maxPlanetProduction,
+      distanceOffset: this._distanceOffset
     };
   }
 
