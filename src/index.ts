@@ -6,9 +6,10 @@ import "reflect-metadata";
 
 import {createNewUser, authenticateUser} from "./controllers/auth";
 import {createNewRoom, getRooms, getRoomById} from "./controllers/rooms";
-import {jwtAuthMiddleware, socketIOJwtAuthMiddleware} from "./middlewares/auth"
+import {jwtAuthMiddleware} from "./middlewares/auth"
 import {Server, Socket} from "./events/base";
 import {handleInitialConnection} from "./handlers";
+import {roomConnectionIDMiddleware, roomConnectionJWTMiddleware} from "./middlewares/room_connection";
 
 
 
@@ -33,10 +34,6 @@ app.get("/api/rooms", jwtAuthMiddleware, getRooms);
 app.get("/api/rooms/:roomId", jwtAuthMiddleware, getRoomById);
 
 
-// app.listen(PORT, () => {
-//   console.log(`Server is running at http://localhost:${PORT}`);
-// });
-
 // Socket IO handlers
 const httpServer = createServer(app);
 
@@ -47,10 +44,9 @@ const io = new Server(httpServer, {
 });
 
 
-const roomsNamespace = io.of("/rooms");
+io.use(roomConnectionJWTMiddleware);
+io.use(roomConnectionIDMiddleware);
 
-roomsNamespace.use(socketIOJwtAuthMiddleware);
-
-roomsNamespace.on("connection", handleInitialConnection);
+io.on("connection", handleInitialConnection);
 
 httpServer.listen(PORT, () => console.log(`Server is running at http://localhost:${PORT}`));
