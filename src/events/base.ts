@@ -20,6 +20,7 @@ interface ServerToClientEvents {
   "RoomUserJoin": (event: RoomUserJoin) => void;
   "BatchSendEvent": (event: BatchSendEvent) => void;
   "BatchRedirectEvent": (event: BatchRedirectEvent) => void;
+  "ErrorEvent": (error: {"message": string}) => void;
 }
 
 
