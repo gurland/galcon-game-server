@@ -7,9 +7,13 @@ export enum RoomState {
 }
 
 export interface RoomStateChangeEvent {
-  state: number
+  state: RoomState
 }
 
 export interface RoomUserJoin {
+  user: User
+}
+
+export interface RoomUserLeave {
   user: User
 }

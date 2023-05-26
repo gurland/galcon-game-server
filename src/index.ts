@@ -12,7 +12,6 @@ import {handleInitialConnection} from "./handlers";
 import {roomConnectionIDMiddleware, roomConnectionJWTMiddleware} from "./middlewares/room_connection";
 
 
-
 dotenv.config();
 const PORT = process.env.PORT;
 

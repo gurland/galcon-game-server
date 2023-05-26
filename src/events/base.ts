@@ -3,8 +3,9 @@ import {
   Socket as SocketIOSocket, 
   Server as SocketIOServer
 } from "socket.io";
-import {RoomStateChangeEvent, RoomUserJoin} from "./room";
+import {RoomStateChangeEvent, RoomUserJoin, RoomUserLeave} from "./room";
 import {User} from "../models/User";
+import {PlanetOccupiedEvent} from "./planet"
 
 
 interface ClientToServerEvents {
@@ -18,6 +19,7 @@ interface ClientToServerEvents {
 
 interface ServerToClientEvents {
   "RoomUserJoin": (event: RoomUserJoin) => void;
+  "RoomUserLeave": (event: RoomUserLeave) => void;
   "BatchSendEvent": (event: BatchSendEvent) => void;
   "BatchRedirectEvent": (event: BatchRedirectEvent) => void;
   "ErrorEvent": (error: {"message": string}) => void;
