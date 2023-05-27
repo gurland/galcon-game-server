@@ -9,6 +9,8 @@ import {PlanetOccupiedEvent} from "./planet"
 
 
 interface ClientToServerEvents {
+  "ChatMessageEvent": (event: ChatMessageEvent) => void;
+
   "BatchSendEvent": (event: BatchSendEvent) => void;
   "BatchRedirectEvent": (event: BatchRedirectEvent) => void;
   "RoomStateChangeEvent": (event: RoomStateChangeEvent) => void;
@@ -18,6 +20,8 @@ interface ClientToServerEvents {
 
 
 interface ServerToClientEvents {
+  "ChatMessageEvent": (event: ChatMessageEvent) => void;
+
   "RoomUserJoin": (event: RoomUserJoin) => void;
   "RoomUserLeave": (event: RoomUserLeave) => void;
   "BatchSendEvent": (event: BatchSendEvent) => void;
@@ -27,7 +31,6 @@ interface ServerToClientEvents {
 
 
 export interface InterServerEvents {
-  ping: () => void;
 }
 
 export interface SocketData {
