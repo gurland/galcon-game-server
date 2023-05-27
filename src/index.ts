@@ -8,7 +8,7 @@ import {createNewUser, authenticateUser} from "./controllers/auth";
 import {createNewRoom, getRooms, getRoomById} from "./controllers/rooms";
 import {jwtAuthMiddleware} from "./middlewares/auth"
 import {Server, Socket} from "./events/base";
-import {handleInitialConnection} from "./handlers";
+import {handleInitialConnect} from "./handlers/connect";
 import {roomConnectionIDMiddleware, roomConnectionJWTMiddleware} from "./middlewares/room_connection";
 
 
@@ -36,7 +36,7 @@ app.get("/api/rooms/:roomId", jwtAuthMiddleware, getRoomById);
 // Socket IO handlers
 const httpServer = createServer(app);
 
-const io = new Server(httpServer, {
+export const io = new Server(httpServer, {
   cors: {
     origin: true
   }
@@ -46,6 +46,6 @@ const io = new Server(httpServer, {
 io.use(roomConnectionJWTMiddleware);
 io.use(roomConnectionIDMiddleware);
 
-io.on("connection", handleInitialConnection);
+io.on("connection", handleInitialConnect);
 
 httpServer.listen(PORT, () => console.log(`Server is running at http://localhost:${PORT}`));

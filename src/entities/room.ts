@@ -38,6 +38,14 @@ export class Room {
     this._users.push(user);
   }
 
+  public removeUserById(userId: number): void {
+    // TODO: Add complete user defeat
+    for (let i = 0; i < this._users.length; i++) {
+      if (this._users[i].id == userId)
+        this._users.splice(i, 1)
+    }
+  }
+
   public getUserById(userId: number): User | undefined {
     for (const user of this._users) {
       if (user.id == userId) return user

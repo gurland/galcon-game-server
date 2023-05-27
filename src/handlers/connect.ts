@@ -1,14 +1,13 @@
-import {Socket} from "./events/base";
-import {RoomsManager} from "./entities/rooms_manager";
-import {disconnectSocketWithError} from "./utils";
+import {Socket} from "../events/base";
+import {RoomsManager} from "../entities/rooms_manager";
+import {disconnectSocketWithError} from "../utils";
+import {routeChatMessage} from "./chat_command_handlers/router";
+import {handleDisconnect} from "./disconnect";
 
-
-export const handleInitialConnection = (socket: Socket) => {
+export const handleInitialConnect = (socket: Socket) => {
   const room = RoomsManager.getRoomById(socket.data.roomId!);
   if (!room)
     return disconnectSocketWithError(socket, `Room with id ${socket.data.roomId} was not found!`)
-
-  console.log(room.getUserById(socket.data.user!.id));
 
   if (room.getUserById(socket.data.user!.id)) {
     return disconnectSocketWithError(socket, `User is already in room with id ${room.id}`)
@@ -19,4 +18,7 @@ export const handleInitialConnection = (socket: Socket) => {
     room.addUser(socket.data.user!)
     room.users.forEach(user => socket.emit("RoomUserJoin", {user}))
   }
+
+  socket.on("ChatMessageEvent", event => routeChatMessage(event.text, socket));
+  socket.on("disconnecting", () => handleDisconnect(socket));
 }
