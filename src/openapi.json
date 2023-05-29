@@ -193,6 +193,10 @@
           "password" : {
             "type" : "string"
           }
+        },
+        "example" : {
+          "username" : "test",
+          "password" : "test"
         }
       },
       "User" : {
@@ -204,6 +208,10 @@
           "username" : {
             "type" : "string"
           }
+        },
+        "example" : {
+          "id" : 0,
+          "username" : "test"
         }
       },
       "Token" : {
@@ -212,6 +220,9 @@
           "token" : {
             "type" : "string"
           }
+        },
+        "example" : {
+          "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTY4NTM2MjUwMn0.e_gwhq0aBVgVZU7950yVBlpGAthmfMaB0av5_tACDWA"
         }
       },
       "Error" : {
@@ -220,6 +231,9 @@
           "message" : {
             "type" : "string"
           }
+        },
+        "example" : {
+          "message" : "Error description"
         }
       },
       "ChatMessage" : {
@@ -228,6 +242,9 @@
           "text" : {
             "type" : "string"
           }
+        },
+        "example" : {
+          "text" : "Server: game is starting in 10 seconds!"
         }
       },
       "Planet" : {
@@ -248,6 +265,13 @@
           "radius" : {
             "type" : "number"
           }
+        },
+        "example" : {
+          "id" : 0,
+          "production" : 151,
+          "x" : 4.473504076971926,
+          "y" : 3.8088511217454437,
+          "radius" : 2.2701224399181816
         }
       },
       "RoomSettings" : {
@@ -277,6 +301,16 @@
           "distanceOffset" : {
             "type" : "number"
           }
+        },
+        "example" : {
+          "planetCount" : 10,
+          "speed" : 0.05,
+          "width" : 16,
+          "height" : 9,
+          "maxPlanetRadius" : 1.6468837995256347,
+          "minPlanetProduction" : 50,
+          "maxPlanetProduction" : 200,
+          "distanceOffset" : 0.3
         }
       },
       "GameMap" : {
