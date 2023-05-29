@@ -1,0 +1,344 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Galcon Server",
+    "description" : "Galcon server features JWT authorization, real-time game and chat events",
+    "termsOfService" : "",
+    "contact" : {
+      "name" : "Stanislav Bobokalo"
+    },
+    "version" : "0.0.1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:8000 ",
+    "description" : "Dev server"
+  } ],
+  "tags" : [ {
+    "name" : "auth",
+    "description" : "Authentication related requests"
+  }, {
+    "name" : "rooms",
+    "description" : "Room related requests"
+  } ],
+  "paths" : {
+    "/api/users" : {
+      "post" : {
+        "tags" : [ "auth" ],
+        "summary" : "Register new user",
+        "operationId" : "registerUser",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserCredentials"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Token issued successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "User password does not match",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "User not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tokens" : {
+      "post" : {
+        "tags" : [ "auth" ],
+        "summary" : "Get JWT token for existing user",
+        "operationId" : "obtainJWTToken",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserCredentials"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "User created successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "User with that username already exists",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/rooms" : {
+      "get" : {
+        "tags" : [ "rooms" ],
+        "summary" : "Get all rooms",
+        "operationId" : "getRooms",
+        "responses" : {
+          "200" : {
+            "description" : "User created successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Room"
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Valid JWT token not provided",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "jwt_auth" : [ ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "rooms" ],
+        "summary" : "Create a new room",
+        "operationId" : "createRoom",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api_rooms_body"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Room created successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Room"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Valid JWT token not provided",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "jwt_auth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "UserCredentials" : {
+        "type" : "object",
+        "properties" : {
+          "username" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          }
+        }
+      },
+      "User" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer"
+          },
+          "username" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Token" : {
+        "type" : "object",
+        "properties" : {
+          "token" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Error" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ChatMessage" : {
+        "type" : "object",
+        "properties" : {
+          "text" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Planet" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer"
+          },
+          "production" : {
+            "type" : "integer"
+          },
+          "x" : {
+            "type" : "number"
+          },
+          "y" : {
+            "type" : "number"
+          },
+          "radius" : {
+            "type" : "number"
+          }
+        }
+      },
+      "RoomSettings" : {
+        "type" : "object",
+        "properties" : {
+          "planetCount" : {
+            "type" : "integer"
+          },
+          "speed" : {
+            "type" : "number"
+          },
+          "width" : {
+            "type" : "integer"
+          },
+          "height" : {
+            "type" : "integer"
+          },
+          "maxPlanetRadius" : {
+            "type" : "number"
+          },
+          "minPlanetProduction" : {
+            "type" : "integer"
+          },
+          "maxPlanetProduction" : {
+            "type" : "integer"
+          },
+          "distanceOffset" : {
+            "type" : "number"
+          }
+        }
+      },
+      "GameMap" : {
+        "type" : "object",
+        "properties" : {
+          "planets" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Planet"
+            }
+          },
+          "settings" : {
+            "$ref" : "#/components/schemas/RoomSettings"
+          }
+        }
+      },
+      "Room" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer"
+          },
+          "owner" : {
+            "$ref" : "#/components/schemas/User"
+          },
+          "users" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/User"
+            }
+          },
+          "map" : {
+            "$ref" : "#/components/schemas/GameMap"
+          },
+          "chatMessages" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ChatMessage"
+            }
+          },
+          "settings" : {
+            "$ref" : "#/components/schemas/RoomSettings"
+          }
+        }
+      },
+      "api_rooms_body" : {
+        "type" : "object",
+        "properties" : {
+          "settings" : {
+            "$ref" : "#/components/schemas/RoomSettings"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "jwt_auth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "jwt"
+      }
+    },
+    "links" : { },
+    "callbacks" : { }
+  }
+}
