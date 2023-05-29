@@ -2,7 +2,7 @@
   "openapi" : "3.0.0",
   "info" : {
     "title" : "Galcon Server",
-    "description" : "Galcon server features JWT authorization, real-time game and chat events",
+    "description" : "Galcon server features JWT authorization, real-time game and chat events. This is useful only for pre-game stage, e.g. lobby management, chatting, game settings.\n\nReal-time events doc: https://gurland.github.io/galcon-game-server/",
     "termsOfService" : "",
     "contact" : {
       "name" : "Stanislav Bobokalo"
@@ -25,6 +25,7 @@
       "post" : {
         "tags" : [ "auth" ],
         "summary" : "Register new user",
+        "description": "Create a new user using username and password. `````each username should be unique",
         "operationId" : "registerUser",
         "requestBody" : {
           "content" : {
@@ -74,6 +75,7 @@
         "tags" : [ "auth" ],
         "summary" : "Get JWT token for existing user",
         "operationId" : "obtainJWTToken",
+        "description": "Issue a new JWT token to authorize further user requests",
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -112,6 +114,7 @@
         "tags" : [ "rooms" ],
         "summary" : "Get all rooms",
         "operationId" : "getRooms",
+        "description": "Get all rooms list including present players, chat messages, planet map and more! Use this to obtain state of rooms BEFORE start. All state is synced in real-time afterwards using socket.io documentation",
         "responses" : {
           "200" : {
             "description" : "User created successfully",
@@ -144,6 +147,7 @@
       "post" : {
         "tags" : [ "rooms" ],
         "summary" : "Create a new room",
+        "description": "Creates a new room with specified room settings. Lots of parameters are available to change flow of the game",
         "operationId" : "createRoom",
         "requestBody" : {
           "content" : {
