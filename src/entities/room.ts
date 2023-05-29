@@ -29,7 +29,7 @@ export class Room {
       owner: this._owner,
       users: this._users,
       map: this._map,
-      chat: this._chat,
+      chatMessages: this._chat,
       settings: this._settings
     };
   }

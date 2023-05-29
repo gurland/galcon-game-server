@@ -1,29 +1,29 @@
 export class Chat {
   private _messages: Message[];
 
-  public addMessage(authorName: string, text: string) {
-    this._messages.push(new Message(authorName, text));
+  constructor() {
+    this._messages = []
   }
 
-  toJson() {
-    return {
-      messages: this._messages
-    }
+  public addMessage(authorName: string, text: string) {
+    this._messages.push(new Message(`${authorName}: ${text}`));
+  }
+
+  toJSON() {
+    this._messages.push(new Message("suakaa"))
+    return this._messages
   }
 }
 
 class Message {
-  private _authorName: string;
-  private _text: string;
+  private readonly _text: string;
 
-  constructor(authorName: string, text: string) {
-    this._authorName = authorName;
+  constructor(text: string) {
     this._text = text;
   }
 
-  toJson() {
+  toJSON() {
     return {
-      authorName: this._authorName,
       text: this._text
     }
   }

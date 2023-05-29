@@ -10,6 +10,8 @@ import {jwtAuthMiddleware} from "./middlewares/auth"
 import {Server, Socket} from "./events/base";
 import {handleInitialConnect} from "./handlers/connect";
 import {roomConnectionIDMiddleware, roomConnectionJWTMiddleware} from "./middlewares/room_connection";
+import swaggerUi from "swagger-ui-express";
+import * as swaggerDocument from "./openapi.json"
 
 
 dotenv.config();
@@ -19,6 +21,9 @@ const PORT = process.env.PORT;
 const app: Express = express();
 app.use(express.json());
 app.use(cors());
+
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 app.get("/api", (req: Request, res: Response) => {
   res.send({"message": "Healthcheck OK."});
