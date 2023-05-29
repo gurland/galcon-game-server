@@ -1,0 +1,9 @@
+{
+    "$schema": "https://typedoc.org/schema.json",
+    "entryPoints": ["./src/events"],
+    "exclude": [
+        "./src/events/base.ts"
+    ],
+    "entryPointStrategy": "expand",
+    "out": "./docs"
+}
