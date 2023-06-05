@@ -18,7 +18,9 @@ export const handleInitialConnect = (socket: Socket) => {
   else {
     socket.join(socket.data.roomId!.toString())
     room.addUser(socket.data.user!)
-    room.users.forEach(user => socket.emit("RoomUserJoin", {user}))
+    room.users.forEach(user => socket.emit("RoomUserJoin", {
+      user: socket.data.user!
+    }))
   }
 
   socket.on("ChatMessageEvent", event => routeChatMessage(event.text, socket));
