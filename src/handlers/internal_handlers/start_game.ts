@@ -13,7 +13,7 @@ export const handleStartGame = (event: StartGameEvent) => {
     while (true) {
       const randomPlanetIndex = Math.floor(Math.random() * room!.map.planets.length);
       const randomPlanet = room!.map.planets[randomPlanetIndex];
-      if (randomPlanet.owner!.id === undefined || randomPlanet.owner!.id == user.id) continue
+      if (randomPlanet.owner?.id === undefined || randomPlanet.owner?.id == user.id) continue
 
       randomPlanet.owner = user;
 
