@@ -11,6 +11,13 @@ export class PlanetMap {
     this._settings = settings;
   }
 
+  public getPlanetById(id: number): Planet {
+    for (const planet of this._planets) {
+      if (planet.id == id) return planet;
+    }
+    throw Error(`Planet with id: ${id} does not exist!`);
+  }
+
   public toJSON(): any {
     return {
       planets: this._planets,
