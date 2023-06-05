@@ -5,6 +5,6 @@ export function getRandomFloat(leftBound: number, rightBound: number): number {
 }
 
 export function disconnectSocketWithError(socket: Socket, errorMessage: string): void {
-  socket.emit("ErrorEvent", {"message": errorMessage});
+  socket.emit("ErrorEvent", {message: errorMessage});
   socket.disconnect();
 }

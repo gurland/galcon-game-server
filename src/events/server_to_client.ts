@@ -16,14 +16,37 @@ import {User} from "../models/User";
  * More details on how to work with these see in base.ts documentation.
  */
 export interface ServerToClientEvents {
+  "ErrorEvent": (event: ErrorEvent) => void;
   "ChatMessageEvent": (event: ChatMessageEvent) => void;
 
+  "RoomStateChangeEvent": (event: RoomStateChangeEvent) => void;
   "RoomUserJoin": (event: RoomUserJoin) => void;
   "RoomUserLeave": (event: RoomUserLeave) => void;
+
   "BatchSendEvent": (event: BatchSendEvent) => void;
   "BatchRedirectEvent": (event: BatchRedirectEvent) => void;
-  "ErrorEvent": (error: {"message": string}) => void;
+
+  "PlanetOccupiedEvent": (event: PlanetOccupiedEvent) => void;
 }
+
+
+/**
+ * This event is emitted in case of any error made by client (e.g. joining non-existent room).
+ * The server almost always disconnects socket of the client to allow fast debugging.
+ */
+export interface ErrorEvent {
+  message: string
+}
+
+
+/**
+ * This event says the client that room is either in idle ("init") or in progress ("start") modes.
+ * If only one player is left -- he becomes a winner and server changes the state to "end".
+ */
+export interface RoomStateChangeEvent {
+  state: RoomState
+}
+
 
 /**
  * This event is broadcasted to all room members on new User join.
@@ -38,15 +61,6 @@ export interface RoomUserJoin {
  */
 export interface RoomUserLeave {
   user: User
-}
-
-
-/**
- * When the room enters a new state this event is fired.
- * See RoomState states documentation for all states descriptions.
- */
-export interface RoomStateChangeEvent {
-  state: RoomState
 }
 
 /**

@@ -4,6 +4,7 @@ import {disconnectSocketWithError} from "../utils";
 import {routeChatMessage} from "./chat_command_handlers/router";
 import {handleDisconnect} from "./disconnect";
 import {handleBatchSend} from "./batch_send";
+import {handleRoomStateChange} from "./room_state_change";
 
 export const handleInitialConnect = (socket: Socket) => {
   const room = RoomsManager.getRoomById(socket.data.roomId!);
@@ -22,7 +23,9 @@ export const handleInitialConnect = (socket: Socket) => {
 
   socket.on("ChatMessageEvent", event => routeChatMessage(event.text, socket));
 
-  socket.on("BatchSendEvent", () => handleBatchSend(socket));
+  socket.on("RoomStateChangeEvent", event => handleRoomStateChange(event, socket))
+
+  socket.on("BatchSendEvent", (event) => handleBatchSend(event, socket));
 
   socket.on("disconnecting", () => handleDisconnect(socket));
 }

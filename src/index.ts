@@ -12,6 +12,7 @@ import {handleInitialConnect} from "./handlers/connect";
 import {roomConnectionIDMiddleware, roomConnectionJWTMiddleware} from "./middlewares/room_connection";
 import swaggerUi from "swagger-ui-express";
 import * as swaggerDocument from "./openapi.json"
+import {handleStartGame} from "./handlers/start_game";
 
 
 dotenv.config();
@@ -52,5 +53,6 @@ io.use(roomConnectionJWTMiddleware);
 io.use(roomConnectionIDMiddleware);
 
 io.on("connection", handleInitialConnect);
+io.on("StartGameEvent", handleStartGame);
 
 httpServer.listen(PORT, () => console.log(`Server is running at http://localhost:${PORT}`));

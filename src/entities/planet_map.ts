@@ -77,4 +77,12 @@ export class PlanetMap {
 
     return map;
   }
+
+  get planets(): Planet[] {
+    return this._planets;
+  }
+
+  set planets(value: Planet[]) {
+    this._planets = value;
+  }
 }

@@ -25,7 +25,8 @@ export interface ClientToServerEvents {
 
 /**
  * Send this only when user issues a game start command so server relays this event
- * (see server_to_client events) and makes this game to be in progress
+ * (see server_to_client events) and makes this game to be in progress.
+ * You may only send "start" state.
  */
 export interface RoomStateChangeEvent {
   state: RoomState.Start
