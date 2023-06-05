@@ -23,5 +23,4 @@ export const handleRoomStateChange = (event: RoomStateChangeEvent, socket: Socke
     date: new Date(),
     roomId: roomId
   })
-
 }

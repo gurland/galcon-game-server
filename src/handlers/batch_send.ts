@@ -13,8 +13,6 @@ export const handleBatchSend = (event: BatchSendEvent, socket: Socket) => {
   if (room.state != RoomState.Start)
     return disconnectSocketWithError(socket, "This room haven't started game yet!");
 
-
-
   io.to(room!.id.toString()).emit("RoomUserLeave", {user: socket.data.user!})
   room!.removeUserById(socket.data.user!.id);
 }
