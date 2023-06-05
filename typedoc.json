@@ -2,8 +2,9 @@
     "$schema": "https://typedoc.org/schema.json",
     "entryPoints": ["./src/events"],
     "exclude": [
-        "./src/events/base.ts"
+        "./src/events/inter_server.ts"
     ],
     "entryPointStrategy": "expand",
-    "out": "./docs"
+    "out": "./docs",
+    "readme": "./README.md"
 }

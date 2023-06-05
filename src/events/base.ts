@@ -24,12 +24,13 @@ export enum RoomState {
   End = "end"
 }
 
-
+/** @ignore */
 export interface SocketData {
   user: User;
   roomId: number;
 }
 
+/** @ignore */
 export class Socket extends SocketIOSocket<
   ClientToServerEvents,
   ServerToClientEvents,
@@ -38,6 +39,7 @@ export class Socket extends SocketIOSocket<
 > {}
 
 
+/** @ignore */
 export class Server extends SocketIOServer<
   ClientToServerEvents,
   ServerToClientEvents,
@@ -45,4 +47,5 @@ export class Server extends SocketIOServer<
   SocketData
 > {}
 
+/** @ignore */
 export type SocketNextListener = (err?: ExtendedError | undefined) => void;
