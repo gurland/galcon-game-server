@@ -2,8 +2,9 @@ import {User} from "../models/User";
 import {RoomSettings} from "./room_settings";
 import {PlanetMap} from "./planet_map";
 import {Chat} from "./chat"
-import {RoomState} from "../events/room";
 import {Batch} from "./batch";
+import {BatchSendEvent} from "../events/client_to_server";
+import {RoomState} from "../events/base";
 
 export class Room {
   private _id: number;

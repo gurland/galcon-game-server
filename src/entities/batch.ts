@@ -1,7 +1,7 @@
 import {User} from "../models/User";
-import {RoomSettings} from "./room_settings";
 import {Planet} from "./planet";
 import Vec2 from "vec2";
+import {BatchSendEvent} from "../events/server_to_client";
 
 export class Batch {
   private _id: string;
@@ -33,6 +33,11 @@ export class Batch {
       ownerId: this._owner.id,
       fromPlanetId: this._fromPlanet.id,
       toPlanetId: this._toPlanet.id,
+      fromX: this._fromPoint.x,
+      fromY: this._fromPoint.y,
+      toX: this._toPoint.x,
+      toY: this._toPoint.y,
+      newFromPlanetUnits: 0,
       count: this._count
     }
   }

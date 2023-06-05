@@ -1,3 +1,0 @@
-interface ChatMessageEvent {
-  text: string;
-}

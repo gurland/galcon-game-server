@@ -2,7 +2,7 @@ import {Socket} from "../events/base";
 import {RoomsManager} from "../entities/rooms_manager";
 import {io} from "../index";
 import {disconnectSocketWithError} from "../utils";
-import {RoomState} from "../events/room";
+import {RoomState} from "../events/base";
 
 export const handleBatchSend = (socket: Socket) => {
   const room = RoomsManager.getRoomById(socket.data.roomId!);

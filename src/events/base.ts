@@ -3,35 +3,27 @@ import {
   Socket as SocketIOSocket, 
   Server as SocketIOServer
 } from "socket.io";
-import {RoomStateChangeEvent, RoomUserJoin, RoomUserLeave} from "./room";
 import {User} from "../models/User";
-import {PlanetOccupiedEvent} from "./planet"
+import {ClientToServerEvents} from "./client_to_server";
+import {ServerToClientEvents} from "./server_to_client";
+import {InterServerEvents} from "./inter_server";
 
 
-interface ClientToServerEvents {
-  "ChatMessageEvent": (event: ChatMessageEvent) => void;
+/**
+ * Batches are created by the client, so they assign UUID to them.
+ * Server accepts these UUIDs as unique batch identifiers and uses without any change.
+ */
+export type UUID = string;
 
-  "BatchSendEvent": (event: BatchSendEvent) => void;
-  "BatchRedirectEvent": (event: BatchRedirectEvent) => void;
-  "RoomStateChangeEvent": (event: RoomStateChangeEvent) => void;
-  "BatchCollisionEvent": (event: BatchCollisionEvent) => void;
-  "PlanetOccupiedEvent": (event: PlanetOccupiedEvent) => void;
+/**
+ * Dummy documentation for now
+ */
+export enum RoomState {
+  Init = "init",
+  Start = "start",
+  End = "end"
 }
 
-
-interface ServerToClientEvents {
-  "ChatMessageEvent": (event: ChatMessageEvent) => void;
-
-  "RoomUserJoin": (event: RoomUserJoin) => void;
-  "RoomUserLeave": (event: RoomUserLeave) => void;
-  "BatchSendEvent": (event: BatchSendEvent) => void;
-  "BatchRedirectEvent": (event: BatchRedirectEvent) => void;
-  "ErrorEvent": (error: {"message": string}) => void;
-}
-
-
-export interface InterServerEvents {
-}
 
 export interface SocketData {
   user: User;
