@@ -21,6 +21,7 @@ export class Room {
     this._id = id;
     this._owner = owner;
     this._users = [];
+    this._state = RoomState.Init;
 
     this._chat = new Chat();
     this._settings = settings;
