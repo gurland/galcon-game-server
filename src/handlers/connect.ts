@@ -5,6 +5,7 @@ import {routeChatMessage} from "./chat_command_handlers/router";
 import {handleDisconnect} from "./disconnect";
 import {handleBatchSend} from "./batch_send";
 import {handleRoomStateChange} from "./room_state_change";
+import {io} from "../index";
 
 export const handleInitialConnect = (socket: Socket) => {
   const room = RoomsManager.getRoomById(socket.data.roomId!);
@@ -18,9 +19,9 @@ export const handleInitialConnect = (socket: Socket) => {
   else {
     socket.join(socket.data.roomId!.toString())
     room.addUser(socket.data.user!)
-    room.users.forEach(user => socket.emit("RoomUserJoin", {
+    io.to(room.id.toString()).emit("RoomUserJoin", {
       user: socket.data.user!
-    }))
+    });
   }
 
   socket.on("ChatMessageEvent", event => routeChatMessage(event.text, socket));
