@@ -3,6 +3,7 @@ import {io} from "../index";
 import {RoomStateChangeEvent} from "../events/client_to_server";
 import {RoomsManager} from "../entities/rooms_manager";
 import {disconnectSocketWithError} from "../utils";
+import {handleStartGame} from "./internal_handlers/start_game";
 
 export const handleRoomStateChange = (event: RoomStateChangeEvent, socket: Socket) => {
   const roomId = socket.data.roomId!;
@@ -18,8 +19,9 @@ export const handleRoomStateChange = (event: RoomStateChangeEvent, socket: Socke
     state: RoomState.Start
   });
 
-  io.serverSideEmit("StartGameEvent", {
+  handleStartGame({
     date: new Date(),
     roomId: roomId
-  });
+  })
+
 }
