@@ -27,6 +27,14 @@ export class Batch {
     [this._fromPoint, this._toPoint] = this.getBunchMovementPoints(fromPlanet, toPlanet);
   }
 
+  get id(): string {
+    return this._id;
+  }
+
+  set id(value: string) {
+    this._id = value;
+  }
+
   toJSON(): BatchSendEvent {
     return {
       id: this._id,
