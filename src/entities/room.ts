@@ -4,7 +4,7 @@ import {PlanetMap} from "./planet_map";
 import {Chat} from "./chat"
 import {Batch} from "./batch";
 import {BatchSendEvent} from "../events/client_to_server";
-import {RoomState} from "../events/base";
+import {RoomState, UUID} from "../events/base";
 
 export class Room {
   private _id: number;
@@ -43,6 +43,12 @@ export class Room {
 
   public addUser(user: User): void {
     this._users.push(user);
+  }
+
+  public getBatchById(batchId: UUID) {
+    for (const batch of this._batches) {
+      if (batch.id == batchId) return batch
+    }
   }
 
 
