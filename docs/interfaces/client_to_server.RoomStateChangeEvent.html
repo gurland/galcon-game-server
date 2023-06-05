@@ -18,14 +18,15 @@
 <h1>Interface RoomStateChangeEvent</h1></div>
 <section class="tsd-panel tsd-comment">
 <div class="tsd-comment tsd-typography"><p>Send this only when user issues a game start command so server relays this event
-(see server_to_client events) and makes this game to be in progress</p>
+(see server_to_client events) and makes this game to be in progress.
+You may only send &quot;start&quot; state.</p>
 </div></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
 <li><span class="target">RoomStateChangeEvent</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/gurland/galcon-game-server/blob/2a8b7f9/src/events/client_to_server.ts#L30">src/events/client_to_server.ts:30</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/gurland/galcon-game-server/blob/bb7ff52/src/events/client_to_server.ts#L31">src/events/client_to_server.ts:31</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -41,7 +42,7 @@
 <h3 class="tsd-anchor-link"><span>state</span><a href="#state" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">state</span><span class="tsd-signature-symbol">:</span> <a href="../enums/base.RoomState.html#Start" class="tsd-signature-type tsd-kind-enum-member">Start</a></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/gurland/galcon-game-server/blob/2a8b7f9/src/events/client_to_server.ts#L31">src/events/client_to_server.ts:31</a></li></ul></aside></section></section></div>
+<li>Defined in <a href="https://github.com/gurland/galcon-game-server/blob/bb7ff52/src/events/client_to_server.ts#L32">src/events/client_to_server.ts:32</a></li></ul></aside></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -88,6 +89,7 @@
 <li><a href="server_to_client.BatchRedirectEvent.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Batch<wbr/>Redirect<wbr/>Event</span></a></li>
 <li><a href="server_to_client.BatchSendEvent.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Batch<wbr/>Send<wbr/>Event</span></a></li>
 <li><a href="server_to_client.ChatMessageEvent.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Chat<wbr/>Message<wbr/>Event</span></a></li>
+<li><a href="server_to_client.ErrorEvent.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Error<wbr/>Event</span></a></li>
 <li><a href="server_to_client.PlanetOccupiedEvent.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Planet<wbr/>Occupied<wbr/>Event</span></a></li>
 <li><a href="server_to_client.RoomStateChangeEvent.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Room<wbr/>State<wbr/>Change<wbr/>Event</span></a></li>
 <li><a href="server_to_client.RoomUserJoin.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Room<wbr/>User<wbr/>Join</span></a></li>
