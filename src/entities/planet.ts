@@ -12,10 +12,13 @@ export class Planet {
 
   constructor(id: number, x: number, y: number, radius: number, production: number) {
     this._id = id;
-    this._center = new Vec2(x, y);
-    this._radius = radius;
+    this._owner = null;
 
     this._production = production;
+    this._units = Math.floor(production * 0.4);
+
+    this._center = new Vec2(x, y);
+    this._radius = radius;
   }
 
   toJSON() {
