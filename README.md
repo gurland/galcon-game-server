@@ -19,6 +19,9 @@ Or local and interactive version: `npm run dev` -> go to `http://localhost:8000/
 
 This is used to communicate various real-time events between Users and the Server.
 
+Please, use typescript and include all events from `./src/events` into your client project
+so you won't make any mistakes and IDE would help you with all Event types and names.
+
 
 ### How to work with it
 

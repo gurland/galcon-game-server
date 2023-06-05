@@ -1,3 +1,12 @@
+/**
+ * Client to Server events are emitted by the client. Check index documentation for the guide on
+ * how to establish a correct connection to socket.io server.
+ *
+ * Some events are only valid to send in "start" RoomState (check base docs for more info about states)
+ *
+ * @module
+ */
+
 import {RoomState, UUID} from "./base";
 
 

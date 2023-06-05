@@ -1,3 +1,13 @@
+/**
+ * Server to Client events are emitted by the server.
+ * Server events are SINGLE SOURCE OF TRUTH.
+
+ * Always wait for relayed event from the server in order to ensure it was validated correctly.
+ *
+ * @module
+ */
+
+
 import {RoomState, UUID} from "./base";
 import {User} from "../models/User";
 

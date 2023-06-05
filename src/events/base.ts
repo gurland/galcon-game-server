@@ -19,8 +19,17 @@ export type UUID = string;
  * Dummy documentation for now
  */
 export enum RoomState {
+  /**
+   * Init state means the room was only created and it's current logical state is "lobby".
+   * So server waits until user come, they may use chat or start the game.
+   * */
   Init = "init",
+  /**
+   * Start state means that the game is in progress, so all game events, such as batch and planet events
+   * are being handled properly. In order to change the state to "End" only one player should own planets
+   * */
   Start = "start",
+  /** End game state means that no more events will occur except chat ones. Winner is determined! */
   End = "end"
 }
 
