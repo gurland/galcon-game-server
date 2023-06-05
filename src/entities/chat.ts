@@ -10,7 +10,6 @@ export class Chat {
   }
 
   toJSON() {
-    this._messages.push(new Message("suakaa"))
     return this._messages
   }
 }
