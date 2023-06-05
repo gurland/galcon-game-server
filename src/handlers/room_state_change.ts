@@ -10,6 +10,8 @@ export const handleRoomStateChange = (event: RoomStateChangeEvent, socket: Socke
 
   if (room!.state != RoomState.Init || event.state != RoomState.Start)
     return disconnectSocketWithError(socket, `Bad state. Game has state: ${room!.state}`);
+  if (room!.users.length < 2)
+    return socket.emit("ErrorEvent", {message: "Cannot start the game with less than 2 players!"});
 
   room!.state = RoomState.Start;
   io.to(roomId.toString()).emit("RoomStateChangeEvent", {
