@@ -30,9 +30,7 @@ export class PlanetMap {
   }
 
   public static detectPlanetCollision(planet1: Planet, planet2: Planet, distanceOffset: number) {
-    const dx = planet1.x - planet2.x;
-    const dy = planet1.y - planet2.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
+    const distance = planet1.center.distance(planet2.center);
 
     return distance < planet1.radius + planet2.radius + distanceOffset;
   }

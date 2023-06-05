@@ -1,18 +1,18 @@
 import {User} from "../models/User";
+import Vec2 from "vec2";
 
 export class Planet {
+
   private _id: number;
   private _owner: User | null;
   private _production: number;  // units per minute
   private _units: number;
-  private _x: number;
-  private _y: number;
+  private _center: Vec2;
   private _radius: number;
 
   constructor(id: number, x: number, y: number, radius: number, production: number) {
     this._id = id;
-    this._x = x;
-    this._y = y;
+    this._center = new Vec2(x, y);
     this._radius = radius;
 
     this._production = production;
@@ -24,27 +24,18 @@ export class Planet {
       owner: this._owner,
       production: this._production,
       units: this._units,
-      x: this._x,
-      y: this._y,
+      x: this._center.x,
+      y: this._center.y,
       radius: this._radius,
     };
   }
 
-
-  get y(): number {
-    return this._y;
+  get center(): Vec2 {
+    return this._center;
   }
 
-  set y(value: number) {
-    this._y = value;
-  }
-
-  get x(): number {
-    return this._x;
-  }
-
-  set x(value: number) {
-    this._x = value;
+  set center(value: Vec2) {
+    this._center = value;
   }
 
   get radius(): number {
