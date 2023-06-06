@@ -24,7 +24,10 @@ export class Planet {
   }
 
   public collide(batch: Batch) {
-    this._units -= batch.count;
+    if (batch.owner === batch.toPlanet.owner)
+      this._units += batch.count;
+    else
+      this._units -= batch.count;
 
     if (batch.toPlanet.units < 0) {
       batch.toPlanet.units = Math.abs(batch.toPlanet.units);
