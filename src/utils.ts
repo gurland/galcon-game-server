@@ -14,6 +14,8 @@ export class GameClock {
 
   private _currentTime: number;
   private _fps: number;
+  private _isRunning: boolean;
+
   private readonly _frameDuration: number;
   private readonly _frameCallback: (time: number) => void;
 
@@ -23,22 +25,27 @@ export class GameClock {
     this._frameDuration = 1000 / fps;
     this._frameTimeoutId = null;
     this._frameCallback = frameCallback;
+    this._isRunning = false;
   }
 
   public start(): void {
-    if (!this._frameTimeoutId) {
+    if (!this._isRunning) {
+      this._isRunning = true;
       this.tick();
     }
   }
 
   public stop(): void {
-    if (this._frameTimeoutId) {
+    if (this._isRunning && this._frameTimeoutId) {
+      this._isRunning = false;
       clearTimeout(this._frameTimeoutId);
       this._frameTimeoutId = null;
     }
   }
 
   private tick(): void {
+    if (!this._isRunning)  return;
+
     const startTime = Date.now();
 
     // Execute the frame callback
@@ -48,6 +55,7 @@ export class GameClock {
     const elapsed = endTime - startTime;
 
     const delay = Math.max(0, this._frameDuration - elapsed);
+
 
     this._currentTime += this._frameDuration;
     this._frameTimeoutId = setTimeout(() => {

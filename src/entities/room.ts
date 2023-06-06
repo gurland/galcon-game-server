@@ -80,8 +80,12 @@ export class Room {
 
     const roomSockets = io.to(this._id.toString());
     let ownerIds = new Set(
-      this._map.planets.map(planet => planet.owner?.id)
+      this._map.planets
+        .filter(planet=>planet.owner !== null)
+        .map(planet => planet.owner!.id)
     );
+
+    console.log(ownerIds);
 
     if (ownerIds.size === 1) {
       const winnerId = [...ownerIds.values()][0]!;
