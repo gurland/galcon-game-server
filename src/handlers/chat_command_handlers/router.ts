@@ -13,6 +13,10 @@ const routingTable: RoutingTable = {
 }
 
 export const routeChatMessage = (message: string, socket: Socket) => {
+  console.log(`Got new message in Room with ID: ${socket.data.roomId} | 
+               from User: ${socket.data.user} | 
+               Text: ${message}`)
+
   const command = message.split(" ")[0];
 
   if (command in routingTable)
