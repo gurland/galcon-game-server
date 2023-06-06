@@ -18,11 +18,7 @@ export const handleStartGame = (event: StartGameEvent) => {
         continue
 
       randomPlanet.owner = user;
-
-      io.to(roomId.toString()).emit("PlanetOccupiedEvent", {
-        planetId: randomPlanet.id,
-        newOwnerId: user.id
-      });
+      io.to(roomId.toString()).emit("PlanetOccupiedEvent", randomPlanet.getOccupiedEvent(null)!);
 
       console.log(`Gave User ${user.id} a new planet ${randomPlanet} | Room ID: ${roomId}`)
 
