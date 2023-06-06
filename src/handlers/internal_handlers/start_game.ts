@@ -14,7 +14,8 @@ export const handleStartGame = (event: StartGameEvent) => {
       const randomPlanetIndex = Math.floor(Math.random() * room!.map.planets.length);
       const randomPlanet = room!.map.planets[randomPlanetIndex];
 
-      if (randomPlanet.owner?.id == user.id) continue
+      if (randomPlanet.owner !== null)
+        continue
 
       randomPlanet.owner = user;
 
