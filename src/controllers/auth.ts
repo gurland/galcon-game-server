@@ -8,6 +8,12 @@ import bcrypt from "bcrypt";
 const createNewUser = async (req: Request, res: Response) => {
     // Extract the username and password from the request body
     const { username, password } = req.body;
+
+    if (!username || !password)
+      return res.status(400).json(
+        {"message": "Password and username should not be empty!"}
+      )
+
     const passwordHash = await bcrypt.hash(password, 10);
   
     const newUser = new User()
