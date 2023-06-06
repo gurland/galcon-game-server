@@ -60,7 +60,9 @@ export class PlanetMap {
   private generatePlanet(planetId: number): Planet {
     let tries = 0;
 
-    while (tries < 100) {
+    while (true) {
+      tries++;
+
       const [x, y] = this.getRandomInboundPoint();
       const planetProduction = Math.floor(
         getRandomFloat(this._settings.minPlanetProduction, this._settings.maxPlanetProduction)
@@ -73,14 +75,10 @@ export class PlanetMap {
       });
 
       if (collidedPlanets.length === 0) {
+        if (tries > 100) console.log(`PLANET ID: ${planetId} WAS generated on try: ${tries}.`)
         return newPlanet;
       }
-      tries++;
     }
-
-    console.log(`TRIES: ${tries}. PLANET WAS NOT GENERATED SORRY. PLANET ID: ${planetId}`)
-
-    return new Planet(planetId, 0, 0, 0, 0);
   }
 
   public static generateMap(settings: RoomSettings) {
