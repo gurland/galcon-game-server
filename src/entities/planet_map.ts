@@ -79,6 +79,8 @@ export class PlanetMap {
         return newPlanet;
       }
     }
+
+    return new Planet(0, 0, 0, 0, 0);
   }
 
   public static generateMap(settings: RoomSettings) {
