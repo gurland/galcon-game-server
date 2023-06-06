@@ -29,4 +29,6 @@ export const handleStartGame = (event: StartGameEvent) => {
       break;
     }
   }
+
+  room!.startGame();
 }
