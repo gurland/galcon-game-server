@@ -35,7 +35,7 @@ export class Room {
   }
 
   private _updateBatchesTick(tickTime: number) {
-    const timeInSeconds = tickTime / 60;
+    const timeInSeconds = tickTime / 1000;
 
     for (const batch of this._batches) {
       batch.moveForward(timeInSeconds, this._settings.speed);
