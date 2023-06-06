@@ -1,8 +1,8 @@
-import {Socket, SocketNextListener} from "../events/base";
+import {RoomState, Socket, SocketNextListener} from "../events/base";
 import jwt from "jsonwebtoken";
 import {AppDataSource} from "../models/data-source";
 import {User} from "../models/User";
-import {disconnectSocketWithError} from "../utils";
+import {RoomsManager} from "../entities/rooms_manager";
 
 export const roomConnectionJWTMiddleware = async (socket: Socket, next: SocketNextListener) => {
   if (socket.handshake.auth && socket.handshake.auth.token){
@@ -25,7 +25,7 @@ export const roomConnectionJWTMiddleware = async (socket: Socket, next: SocketNe
   }
 }
 
-export const roomConnectionIDMiddleware = (socket: Socket, next: SocketNextListener) => {
+export const roomConnectionMiddleware = (socket: Socket, next: SocketNextListener) => {
   const roomId = socket.handshake.query.roomId;
 
   if (typeof roomId != "string" || typeof parseInt(roomId) == "undefined") {
@@ -35,6 +35,16 @@ export const roomConnectionIDMiddleware = (socket: Socket, next: SocketNextListe
 
   else {
     socket.data.roomId = parseInt(roomId);
-    next();
+    const room = RoomsManager.getRoomById(socket.data.roomId);
+
+    if (!room){
+      next(new Error("Specified room does not exist."));
+      return;
+    }
+
+    if (room.state != RoomState.Init)
+      next(new Error(`You cannot join rooms with state: ${room.state}`));
+    else
+      next();
   }
 }

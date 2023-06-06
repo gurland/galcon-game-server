@@ -9,7 +9,7 @@ import {createNewRoom, getRooms, getRoomById} from "./controllers/rooms";
 import {jwtAuthMiddleware} from "./middlewares/auth"
 import {Server, Socket} from "./events/base";
 import {handleInitialConnect} from "./handlers/connect";
-import {roomConnectionIDMiddleware, roomConnectionJWTMiddleware} from "./middlewares/room_connection";
+import {roomConnectionMiddleware, roomConnectionJWTMiddleware} from "./middlewares/room_connection";
 import swaggerUi from "swagger-ui-express";
 import * as swaggerDocument from "./openapi.json"
 
@@ -49,7 +49,7 @@ export const io = new Server(httpServer, {
 
 
 io.use(roomConnectionJWTMiddleware);
-io.use(roomConnectionIDMiddleware);
+io.use(roomConnectionMiddleware);
 
 io.on("connection", handleInitialConnect);
 
