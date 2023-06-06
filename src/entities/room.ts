@@ -61,7 +61,6 @@ export class Room {
       const oldOwner = batch.toPlanet.owner;
 
       // Mutate planet on batch collision
-      batch.toPlanet.units -= batch.count;
       batch.toPlanet.collide(batch)
 
       roomSockets.emit("BatchCollisionEvent", batch.collisionEvent)
