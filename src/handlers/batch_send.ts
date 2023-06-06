@@ -15,4 +15,35 @@ export const handleBatchSend = (event: BatchSendEvent, socket: Socket) => {
 
   io.to(room!.id.toString()).emit("RoomUserLeave", {user: socket.data.user!})
   room!.removeUserById(socket.data.user!.id);
+
+  try {
+    const newBatch = room.addBatch(socket.data.user!, event);
+    newBatch.fromPlanet.units -= newBatch.count;
+
+    io.to(room!.id.toString()).emit("BatchSendEvent", {
+      id: newBatch.id,
+      ownerId: newBatch.owner.id,
+
+      fromPlanetId: newBatch.fromPlanet.id,
+      toPlanetId: newBatch.toPlanet.id,
+
+      fromX: newBatch.fromPoint.x,
+      fromY: newBatch.fromPoint.y,
+      toX: newBatch.toPoint.x,
+      toY: newBatch.toPoint.y,
+      currentX: newBatch.currentPoint.x,
+      currentY: newBatch.currentPoint.y,
+
+      newFromPlanetUnits: newBatch.fromPlanet.units,
+      count: newBatch.count
+    })
+  }
+  catch (error) {
+    let message = error instanceof Error ? error.message : "Unexpected error ocurred";
+
+    socket.emit("ErrorEvent", {
+      message: message
+    })
+    return
+  }
 }

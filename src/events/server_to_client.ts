@@ -25,6 +25,7 @@ export interface ServerToClientEvents {
 
   "BatchSendEvent": (event: BatchSendEvent) => void;
   "BatchRedirectEvent": (event: BatchRedirectEvent) => void;
+  "BatchCollisionEvent": (event: BatchCollisionEvent) => void;
 
   "PlanetOccupiedEvent": (event: PlanetOccupiedEvent) => void;
 }
@@ -87,6 +88,8 @@ export interface BatchSendEvent {
   fromY: number;
   toX: number;
   toY: number;
+  currentX: number;
+  currentY: number;
 
   count: number;
 }

@@ -11,6 +11,17 @@ export class PlanetMap {
     this._settings = settings;
   }
 
+  public produceUnits(tickTime: number) {
+    // Time is in ms while production is units per minute, so convert
+    const tickTimePerMinute = tickTime / (1000 * 60);
+
+    for (const planet of this._planets) {
+      if (!planet.owner) continue;
+
+      planet.units += planet.production * tickTimePerMinute;
+    }
+  }
+
   public getPlanetById(id: number): Planet {
     for (const planet of this._planets) {
       if (planet.id == id) return planet;
