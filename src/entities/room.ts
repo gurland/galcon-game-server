@@ -154,6 +154,16 @@ export class Room {
   }
 
   public removeUserById(userId: number): void {
+    const roomSockets = io.to(this._id.toString());
+    const user = this.getUserById(userId);
+
+    if (!user) return
+
+    this.map.getPlanetsByOwnerId(userId).forEach(planet => {
+      planet.owner = null;
+      roomSockets.emit("PlanetOccupiedEvent", planet.getOccupiedEvent(user)!);
+    })
+
     // TODO: Add complete user defeat
     for (let i = 0; i < this._users.length; i++) {
       if (this._users[i].id == userId)
