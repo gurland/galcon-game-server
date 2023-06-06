@@ -1,6 +1,6 @@
 import {Socket} from "../../events/base";
-import {io} from "../../index";
 import {disconnectSocketWithError} from "../../utils";
+import {io} from "../../app";
 
 export const defaultHandler = (text: string, socket: Socket) => {
   const roomId = socket.data.roomId;

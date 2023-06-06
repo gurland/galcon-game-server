@@ -1,6 +1,6 @@
 import {StartGameEvent} from "../../events/inter_server";
 import {RoomsManager} from "../../entities/rooms_manager";
-import {io} from "../../index";
+import {io} from "../../app";
 
 export const handleStartGame = (event: StartGameEvent) => {
   const {roomId, date} = event;

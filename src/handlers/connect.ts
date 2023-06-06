@@ -5,7 +5,7 @@ import {routeChatMessage} from "./chat_command_handlers/router";
 import {handleDisconnect} from "./disconnect";
 import {handleBatchSend} from "./batch_send";
 import {handleRoomStateChange} from "./room_state_change";
-import {io} from "../index";
+import {io} from "../app";
 
 export const handleInitialConnect = (socket: Socket) => {
   const roomId = socket.data.roomId;

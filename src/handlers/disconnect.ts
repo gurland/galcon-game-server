@@ -1,6 +1,6 @@
 import {Socket} from "../events/base";
 import {RoomsManager} from "../entities/rooms_manager";
-import {io} from "../index";
+import {io} from "../app";
 
 export const handleDisconnect = (socket: Socket) => {
   if (!socket.data.roomId || !socket.data.user)

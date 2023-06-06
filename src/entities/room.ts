@@ -6,7 +6,7 @@ import {Batch} from "./batch";
 import {BatchSendEvent} from "../events/client_to_server";
 import {RoomState, UUID} from "../events/base";
 import {GameClock} from "../utils";
-import {io} from "../index";
+import {io} from "../app";
 
 export class Room {
   private _id: number;

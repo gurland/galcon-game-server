@@ -1,5 +1,5 @@
 import {RoomState, Socket} from "../events/base";
-import {io} from "../index";
+import {io} from "../app";
 import {RoomStateChangeEvent} from "../events/client_to_server";
 import {RoomsManager} from "../entities/rooms_manager";
 import {disconnectSocketWithError} from "../utils";

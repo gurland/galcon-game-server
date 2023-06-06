@@ -1,6 +1,6 @@
 import {Socket} from "../events/base";
 import {RoomsManager} from "../entities/rooms_manager";
-import {io} from "../index";
+import {io} from "../app";
 import {disconnectSocketWithError} from "../utils";
 import {RoomState} from "../events/base";
 import {BatchSendEvent} from "../events/client_to_server";
