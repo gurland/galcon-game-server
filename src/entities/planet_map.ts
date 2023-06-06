@@ -33,7 +33,7 @@ export class PlanetMap {
     throw Error(`Planet with id: ${id} does not exist!`);
   }
 
-  public toJSON(): any {
+  public toJSON() {
     return {
       planets: this._planets,
       settings: this._settings
@@ -60,7 +60,7 @@ export class PlanetMap {
   private generatePlanet(planetId: number): Planet {
     let tries = 0;
 
-    while (true) {
+    while (tries < 10000) {
       tries++;
 
       const [x, y] = this.getRandomInboundPoint();
@@ -82,7 +82,7 @@ export class PlanetMap {
   }
 
   public static generateMap(settings: RoomSettings) {
-    let map = new PlanetMap(settings);
+    const map = new PlanetMap(settings);
 
     for (let i = 0; i < map._settings.planetCount; i++) {
       map._planets.push(

@@ -6,15 +6,21 @@ import {disconnectSocketWithError} from "../utils";
 import {handleStartGame} from "./internal_handlers/start_game";
 
 export const handleRoomStateChange = (event: RoomStateChangeEvent, socket: Socket) => {
-  const roomId = socket.data.roomId!;
+  const roomId = socket.data.roomId;
+  if (!roomId)
+        return disconnectSocketWithError(socket, `This room does not exist`);
+
   const room = RoomsManager.getRoomById(roomId);
 
-  if (room!.state != RoomState.Init || event.state != RoomState.Start)
-    return disconnectSocketWithError(socket, `Bad state. Game has state: ${room!.state}`);
-  if (room!.users.length < 2)
+
+  if (!room)
+    return disconnectSocketWithError(socket, `This room does not exist`);
+  if (room.state != RoomState.Init || event.state != RoomState.Start)
+    return disconnectSocketWithError(socket, `Bad state. Game has state: ${room.state}`);
+  if (room.users.length < 2)
     return socket.emit("ErrorEvent", {message: "Cannot start the game with less than 2 players!"});
 
-  room!.state = RoomState.Start;
+  room.state = RoomState.Start;
   io.to(roomId.toString()).emit("RoomStateChangeEvent", {
     state: RoomState.Start
   });

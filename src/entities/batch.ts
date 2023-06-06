@@ -1,7 +1,7 @@
 import {User} from "../models/User";
 import {Planet} from "./planet";
 import Vec2 from "vec2";
-import {BatchCollisionEvent, BatchSendEvent} from "../events/server_to_client";
+import {BatchCollisionEvent} from "../events/server_to_client";
 
 export class Batch {
   private _id: string;
@@ -19,9 +19,12 @@ export class Batch {
   private _count: number;
 
   constructor(id: string, fromPlanet: Planet, toPlanet: Planet, count: number) {
+    if (!fromPlanet.owner)
+      throw Error("fromPlanet has no owner, so batch was not created!");
+
     this._id = id;
 
-    this._owner = fromPlanet.owner!;
+    this._owner = fromPlanet.owner;
 
     this._fromPlanet = fromPlanet;
     this._toPlanet = toPlanet;

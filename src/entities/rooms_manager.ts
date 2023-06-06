@@ -15,11 +15,12 @@ export class RoomsManager {
   }
 
   private getNextId(): number {
-    let maxId: number = -1;
+    let maxId = -1;
 
     for (const roomKey in this._rooms) {
+      const room = this._rooms[roomKey];
 
-      if (this._rooms.hasOwnProperty(roomKey)) {
+      if (room) {
         const roomId: number = parseInt(roomKey);
 
         if (maxId === -1 || roomId > maxId) {

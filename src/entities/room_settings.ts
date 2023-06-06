@@ -1,12 +1,12 @@
 export class RoomSettings {
   private _planetCount: number;
   private _speed: number;
-  private _width: number = 16;
-  private _height: number = 9;
+  private _width = 16;
+  private _height = 9;
   private _maxPlanetRadius: number;
-  private _minPlanetProduction: number = 50;
-  private _maxPlanetProduction: number = 200;
-  private _distanceOffset: number = 1;
+  private _minPlanetProduction = 50;
+  private _maxPlanetProduction = 200;
+  private _distanceOffset = 1;
 
   constructor(planetCount: number, width: number, height: number, minPlanetProduction: number, maxPlanetProduction: number, speed: number, distanceOffset: number) {
     this._planetCount = planetCount;
@@ -22,7 +22,7 @@ export class RoomSettings {
     this._maxPlanetRadius = Math.sqrt(maxPlanetArea / Math.PI) / 1.3;
   }
 
-  public toJSON(): any {
+  public toJSON() {
     return {
       planetCount: this._planetCount,
       speed: this._speed,

@@ -6,7 +6,10 @@ import {RoomState} from "../events/base";
 import {BatchSendEvent} from "../events/client_to_server";
 
 export const handleBatchSend = (event: BatchSendEvent, socket: Socket) => {
-  const room = RoomsManager.getRoomById(socket.data.roomId!);
+  if (!socket.data.roomId || !socket.data.user)
+    return disconnectSocketWithError(socket, "Please, provide valid roomId and JWT token!");
+
+  const room = RoomsManager.getRoomById(socket.data.roomId);
   if (!room)
     return disconnectSocketWithError(socket, "Room does not exist!");
 
@@ -15,10 +18,10 @@ export const handleBatchSend = (event: BatchSendEvent, socket: Socket) => {
 
 
   try {
-    const newBatch = room.addBatch(socket.data.user!, event);
+    const newBatch = room.addBatch(socket.data.user, event);
     newBatch.fromPlanet.units -= newBatch.count;
 
-    io.to(room!.id.toString()).emit("BatchSendEvent", {
+    io.to(room.id.toString()).emit("BatchSendEvent", {
       id: newBatch.id,
       ownerId: newBatch.owner.id,
 
@@ -37,7 +40,7 @@ export const handleBatchSend = (event: BatchSendEvent, socket: Socket) => {
     })
   }
   catch (error) {
-    let message = error instanceof Error ? error.message : "Unexpected error ocurred";
+    const message = error instanceof Error ? error.message : "Unexpected error ocurred";
 
     socket.emit("ErrorEvent", {
       message: message

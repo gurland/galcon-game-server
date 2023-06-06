@@ -81,11 +81,11 @@ export class Room {
     const ownerIds = new Set(
       this._map.planets
         .filter(planet=>planet.owner !== null)
-        .map(planet => planet.owner!.id)
+        .map(planet => planet.owner.id)
     );
 
     if (ownerIds.size === 1) {
-      const winnerId = [...ownerIds.values()][0]!;
+      const winnerId = [...ownerIds.values()][0];
       const winner = this.getUserById(winnerId);
 
       this.state = RoomState.End;
@@ -111,7 +111,7 @@ export class Room {
     this._handleGameEnd();
   }
 
-  public toJSON(): any {
+  public toJSON() {
     return {
       id: this._id,
       owner: this._owner,
@@ -163,7 +163,9 @@ export class Room {
 
     this.map.getPlanetsByOwnerId(userId).forEach(planet => {
       planet.owner = null;
-      roomSockets.emit("PlanetOccupiedEvent", planet.getOccupiedEvent(user)!);
+      const planetOccupiedEvent = planet.getOccupiedEvent(user);
+      if (planetOccupiedEvent)
+        roomSockets.emit("PlanetOccupiedEvent", planetOccupiedEvent);
     })
 
     // TODO: Add complete user defeat

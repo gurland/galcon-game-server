@@ -8,19 +8,25 @@ import {handleRoomStateChange} from "./room_state_change";
 import {io} from "../index";
 
 export const handleInitialConnect = (socket: Socket) => {
-  const room = RoomsManager.getRoomById(socket.data.roomId!);
+  const roomId = socket.data.roomId;
+  const user = socket.data.user;
+
+  if (!roomId || !user)
+    return disconnectSocketWithError(socket, `Please provide valid roomId and JWT token!`)
+
+  const room = RoomsManager.getRoomById(roomId);
   if (!room)
     return disconnectSocketWithError(socket, `Room with id ${socket.data.roomId} was not found!`)
 
-  if (room.getUserById(socket.data.user!.id)) {
+  if (room.getUserById(user.id)) {
     return disconnectSocketWithError(socket, `User is already in room with id ${room.id}`)
   }
 
   else {
-    socket.join(socket.data.roomId!.toString())
-    room.addUser(socket.data.user!)
+    socket.join(roomId.toString())
+    room.addUser(user)
     io.to(room.id.toString()).emit("RoomUserJoin", {
-      user: socket.data.user!
+      user: user
     });
   }
 

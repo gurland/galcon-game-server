@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import {User} from "../models/User";
 import {AppDataSource} from "../models/data-source";
-import { Socket, SocketNextListener } from "../events/base";
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
       user?: User
@@ -22,7 +22,7 @@ export const jwtAuthMiddleware = async (req: Request, res: Response, next: NextF
   const token: string = authHeader.split(' ')[1];
 
   try {
-    const decodedToken: any = jwt.verify(token, process.env.JWT_SECRET as string);
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET as string) as jwt.JwtPayload;
     const user = await AppDataSource.manager.findOneBy(User, { username: decodedToken.username });
 
     if (!user) {

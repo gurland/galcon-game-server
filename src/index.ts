@@ -7,7 +7,7 @@ import "reflect-metadata";
 import {createNewUser, authenticateUser} from "./controllers/auth";
 import {createNewRoom, getRooms, getRoomById} from "./controllers/rooms";
 import {jwtAuthMiddleware} from "./middlewares/auth"
-import {Server, Socket} from "./events/base";
+import {Server} from "./events/base";
 import {handleInitialConnect} from "./handlers/connect";
 import {roomConnectionMiddleware, roomConnectionJWTMiddleware} from "./middlewares/room_connection";
 import swaggerUi from "swagger-ui-express";

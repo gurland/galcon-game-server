@@ -8,23 +8,23 @@ export const handleStartGame = (event: StartGameEvent) => {
   console.log(`Starting the game in a Room. ID: ${roomId} | Date: ${date}`)
   const room = RoomsManager.getRoomById(roomId);
 
+  if (!room)
+    return "This route isn't possible because of the middleware";
+
   // Give all users random planets
-  for (const user of room!.users) {
-    while (true) {
-      const randomPlanetIndex = Math.floor(Math.random() * room!.map.planets.length);
-      const randomPlanet = room!.map.planets[randomPlanetIndex];
+  for (const user of room.users) {
+    const randomPlanet = room.map.planets.filter(
+      planet => planet.owner === null
+    )[0];
 
-      if (randomPlanet.owner !== null)
-        continue
 
-      randomPlanet.owner = user;
-      io.to(roomId.toString()).emit("PlanetOccupiedEvent", randomPlanet.getOccupiedEvent(null)!);
+    randomPlanet.owner = user;
+    console.log(`Gave User ${user.id} a new planet ${randomPlanet.toJSON()} | Room ID: ${roomId}`);
 
-      console.log(`Gave User ${user.id} a new planet ${randomPlanet.toJSON()} | Room ID: ${roomId}`)
-
-      break;
-    }
+    const planetOccupiedEvent = randomPlanet.getOccupiedEvent(null);
+    if(planetOccupiedEvent)
+      io.to(roomId.toString()).emit("PlanetOccupiedEvent", planetOccupiedEvent);
   }
 
-  room!.startGame();
+  room.startGame();
 }

@@ -7,7 +7,7 @@ import {RoomsManager} from "../entities/rooms_manager";
 export const roomConnectionJWTMiddleware = async (socket: Socket, next: SocketNextListener) => {
   if (socket.handshake.auth && socket.handshake.auth.token){
     try {
-      const decodedToken: any = jwt.verify(socket.handshake.auth.token, process.env.JWT_SECRET as string);
+      const decodedToken = jwt.verify(socket.handshake.auth.token, process.env.JWT_SECRET as string) as jwt.JwtPayload;
       const user = await AppDataSource.manager.findOneBy(User, { username: decodedToken.username });
 
       if (!user) {

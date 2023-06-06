@@ -1,10 +1,15 @@
 import {Socket} from "../../events/base";
 import {io} from "../../index";
+import {disconnectSocketWithError} from "../../utils";
 
 export const startHandler = (text: string, socket: Socket) => {
-  const ioRoom = io.to(socket.data.roomId!.toString());
+  const roomId = socket.data.roomId;
+  if (!roomId)
+    return disconnectSocketWithError(socket, "Sorry, but no room id means no game start :C")
 
-  ioRoom.emit("ChatMessageEvent", {
+  const roomSockets = io.to(roomId.toString());
+
+  roomSockets.emit("ChatMessageEvent", {
     text: `Server: ${socket.data.user?.username} sent /start command`
   })
 }

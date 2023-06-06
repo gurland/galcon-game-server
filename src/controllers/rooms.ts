@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from "express";
+import { Request, Response } from "express";
 import {RoomsManager} from "../entities/rooms_manager";
 import {RoomSettings} from "../entities/room_settings";
 import {Room} from "../entities/room";
@@ -18,6 +18,9 @@ import {Room} from "../entities/room";
 // client adds "Start game" button
 
 const createNewRoom = async (req: Request, res: Response) => {
+  if (!req.user)
+    return res.status(401).json({"message": "You cant create a room"})
+
   const {
     settings: {
       planetCount = 10,
@@ -41,7 +44,7 @@ const createNewRoom = async (req: Request, res: Response) => {
       distanceOffset
     );
 
-    const newRoom: Room = RoomsManager.getManager().addRoom(req.user!, roomSettings);
+    const newRoom: Room = RoomsManager.getManager().addRoom(req.user, roomSettings);
   return res.json(newRoom);
 }
 
