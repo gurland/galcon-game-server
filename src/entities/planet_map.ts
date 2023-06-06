@@ -22,6 +22,10 @@ export class PlanetMap {
     }
   }
 
+  public getPlanetsByOwnerId(ownerId: number): Planet[] {
+    return this._planets.filter(planet => planet.owner?.id === ownerId)
+  }
+
   public getPlanetById(id: number): Planet {
     for (const planet of this._planets) {
       if (planet.id == id) return planet;
