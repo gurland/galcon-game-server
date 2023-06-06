@@ -43,9 +43,11 @@ export interface ErrorEvent {
 /**
  * This event says the client that room is either in idle ("init") or in progress ("start") modes.
  * If only one player is left -- he becomes a winner and server changes the state to "end".
+ * Winner is supplied on state change to RoomState.End
  */
 export interface RoomStateChangeEvent {
-  state: RoomState
+  state: RoomState,
+  winner?: User
 }
 
 

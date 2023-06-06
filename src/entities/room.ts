@@ -90,7 +90,8 @@ export class Room {
 
       this.state = RoomState.End;
       io.to(this._id.toString()).emit("RoomStateChangeEvent", {
-        state: RoomState.End
+        state: RoomState.End,
+        winner: winner
       });
 
       this._gameClock.stop();
