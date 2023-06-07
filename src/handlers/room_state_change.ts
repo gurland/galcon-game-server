@@ -7,7 +7,7 @@ import {handleStartGame} from "./internal_handlers/start_game";
 
 export const handleRoomStateChange = (event: RoomStateChangeEvent, socket: Socket) => {
   const roomId = socket.data.roomId;
-  if (!roomId)
+  if (roomId === undefined)
         return disconnectSocketWithError(socket, `This room does not exist`);
 
   const room = RoomsManager.getRoomById(roomId);

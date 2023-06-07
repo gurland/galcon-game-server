@@ -11,7 +11,7 @@ export const handleInitialConnect = (socket: Socket) => {
   const roomId = socket.data.roomId;
   const user = socket.data.user;
 
-  if (!roomId || !user)
+  if (roomId === undefined || !user)
     return disconnectSocketWithError(socket, `Please provide valid roomId and JWT token!`)
 
   const room = RoomsManager.getRoomById(roomId);
