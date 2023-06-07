@@ -4,7 +4,7 @@ import {io} from "../../app";
 
 export const defaultHandler = (text: string, socket: Socket) => {
   const roomId = socket.data.roomId;
-  if (!roomId)
+  if (roomId === undefined)
     return disconnectSocketWithError(socket, "Sorry, but no room id means no chat :C")
 
   const ioRoom = io.to(roomId.toString());
