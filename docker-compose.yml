@@ -16,6 +16,8 @@ services:
 
   frontend:
     build: ./frontend_service
+    environment:
+      - SERVER_URL=https://galcon-kpi.fun/
 
   galcon_server:
     build: .
