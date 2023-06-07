@@ -12,7 +12,7 @@ services:
       - galcon_server
 
     volumes:
-      - /etc/letsencrypt/archive/galcon-kpi.fun/:ro:/etc/nginx/certs/
+      - /etc/letsencrypt/archive/galcon-kpi.fun/:/etc/nginx/certs/
 
   frontend:
     build: ./frontend_service
