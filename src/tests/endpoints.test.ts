@@ -92,6 +92,11 @@ describe("/api/rooms", () => {
     expect(response.body.length).toBe(1);
   })
 
+})
+
+
+describe("/api/rooms/:id", () => {
+
   it("returns a room by id", async () => {
     const response = await supertest(app).get(`/api/rooms/${roomId}`).set("Authorization", `Bearer ${token}`);
     expect(response.status).toBe(200);
