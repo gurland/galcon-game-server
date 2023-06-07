@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 
 export const AppDataSource = new DataSource({
   type: "sqlite",
-  database: "database.sqlite",
+  database: "./db/database.sqlite",
   synchronize: true,
   logging: false,
   entities: [User],
