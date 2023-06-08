@@ -1,7 +1,8 @@
-import { Request, Response } from "express";
+import {Request, Response} from "express";
 import {RoomsManager} from "../entities/rooms_manager";
 import {RoomSettings} from "../entities/room_settings";
 import {Room} from "../entities/room";
+import {RoomState} from "../events/base";
 
 // Authorization: Bearer JWT_TOKEN
 
@@ -52,7 +53,7 @@ const createNewRoom = async (req: Request, res: Response) => {
 //  Refresh button
 const getRooms =  async (req: Request, res: Response) => {
   return res.json(
-      RoomsManager.getManager().getRooms()
+      RoomsManager.getManager().getRooms().filter(room => room.state==RoomState.Init)
   );
 }
 
