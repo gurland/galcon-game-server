@@ -1,17 +1,24 @@
 import {httpServer, io} from "../app";
 
-import Client, {Socket as ClientSocket} from "socket.io-client";
+import Client, {Socket} from "socket.io-client";
 import * as fs from "fs";
-import {ClientToServerEvents} from "../events/client_to_server";
-import {ServerToClientEvents} from "../events/server_to_client";
 import {RoomState} from "../events/base";
 
 
-let clientSocket1: ClientSocket<ClientToServerEvents, ServerToClientEvents>;
-let clientSocket2: ClientSocket<ClientToServerEvents, ServerToClientEvents>;
-let clientSocket3: ClientSocket<ClientToServerEvents, ServerToClientEvents>;
+let clientSocket1: Socket;
+let clientSocket2: Socket;
+let clientSocket3: Socket;
 let port: number;
+let planets: any[] = [];
+let planetIdRange = 8;
 
+function getNonOwnedPlanetId() {
+  const ownedPlanetIds = [...new Set(planets.map((planet) => planet.id))];
+  const randomPlanetId = Math.floor(Math.random() * planetIdRange);
+  if (ownedPlanetIds.includes(randomPlanetId))
+    return getNonOwnedPlanetId();
+  return randomPlanetId;
+}
 
 async function createUser(id: number) {
   return await fetch(`http://localhost:${port}/api/users`, {
@@ -57,6 +64,13 @@ async function createClientSocket(token: string, roomId: number) {
     client.on("ErrorEvent", (err) => {
       console.log("client error event", err);
     });
+    client.on("PlanetOccupiedEvent", (planet) => {
+      console.log(planet);
+      planets.push(planet);
+    });
+    client.onAny((event, ...args) => {
+      console.log("client event", event, args);
+    });
   });
   return client;
 }
@@ -80,10 +94,12 @@ beforeAll((done) => {
 });
 
 afterAll(() => {
+  io.sockets.removeAllListeners();
   io.close();
   clientSocket1.close();
   clientSocket2.close();
   clientSocket3.close();
+  httpServer.removeAllListeners();
   httpServer.closeAllConnections();
   httpServer.close();
 });
@@ -115,16 +131,8 @@ describe("chat", () => {
 });
 
 describe("game", () => {
-  // test("non room owner cant start the game", (done) => {
-  //   clientSocket2.on("RoomStateChangeEvent", (arg) => {
-  //     expect(arg.state).toBe(RoomState.Start);
-  //     done()
-  //   });
-  //   clientSocket1.emit('RoomStateChangeEvent', {state: RoomState.Start})
-  // });
 
   test("cant start game with one player", (done) => {
-    // @ts-ignore
     clientSocket3.on("ErrorEvent", (arg) => {
       expect(arg.message).toBeDefined();
       done();
@@ -133,7 +141,6 @@ describe("game", () => {
   });
 
   test("can't send batch before game starts", (done) => {
-    // @ts-ignore
     clientSocket3.on("ErrorEvent", (arg) => {
       expect(arg.message).toBeDefined();
       done();
@@ -163,4 +170,25 @@ describe("game", () => {
     clientSocket1.emit("RoomStateChangeEvent", {state: RoomState.Start});
   });
 
+  test("can't send batch from planet you don't own", (done) => {
+    clientSocket2.on("ErrorEvent", (arg) => {
+      expect(arg.message).toBeDefined();
+      done();
+    });
+
+    clientSocket2.emit("BatchSendEvent", {
+      count: 1,
+      currentY: 0,
+      currentX: 0,
+      fromX: 0,
+      fromY: 0,
+      toX: 10,
+      toY: 10,
+      ownerId: 10,
+      toPlanetId: 7,
+      fromPlanetId: getNonOwnedPlanetId(),
+      newFromPlanetUnits: 4,
+      id: "",
+    });
+  });
 });
