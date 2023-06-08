@@ -57,21 +57,33 @@ export class PlanetMap {
     return distance < planet1.radius + planet2.radius + distanceOffset;
   }
 
-  private generatePlanet(planetId: number): Planet {
-    let tries = 0;
+  private generatePlanet(planetId: number): Planet | undefined{
+    const {width, height, planetCount, minPlanetProduction, maxPlanetProduction, distanceOffset} = this._settings
 
+    let tries = 0;
     while (tries < 10000) {
       tries++;
 
       const [x, y] = this.getRandomInboundPoint();
       const planetProduction = Math.floor(
-        getRandomFloat(this._settings.minPlanetProduction, this._settings.maxPlanetProduction)
+        getRandomFloat(minPlanetProduction, maxPlanetProduction)
       );
 
-      const planetRadius = planetProduction * (this._settings.maxPlanetRadius / this._settings.maxPlanetProduction);
+      const fieldArea = width * height;
+      const maxPlanetArea = fieldArea / planetCount;
+      const baseRadius = 0.3;
+      const offsetRadius = distanceOffset/2;
+
+      const maxPlanetRadius = Math.sqrt(maxPlanetArea/Math.PI) - offsetRadius - baseRadius;
+
+      const productionRange = maxPlanetProduction - minPlanetProduction;
+      const minPlanetRadius = maxPlanetRadius / productionRange;
+      const planetRadius = baseRadius + (planetProduction - minPlanetProduction) * minPlanetRadius;
+
       const newPlanet = new Planet(planetId, x, y, planetRadius, planetProduction);
+
       const collidedPlanets = this._planets.filter((existingPlanet) => {
-        return PlanetMap.detectPlanetCollision(existingPlanet, newPlanet, this._settings.distanceOffset);
+        return PlanetMap.detectPlanetCollision(existingPlanet, newPlanet, distanceOffset);
       });
 
       if (collidedPlanets.length === 0) {
@@ -79,17 +91,17 @@ export class PlanetMap {
         return newPlanet;
       }
     }
-
-    return new Planet(0, 0, 0, 0, 0);
   }
 
   public static generateMap(settings: RoomSettings) {
     const map = new PlanetMap(settings);
 
     for (let i = 0; i < map._settings.planetCount; i++) {
-      map._planets.push(
-        map.generatePlanet(i)
-      );
+      const planet = map.generatePlanet(i);
+      if (planet)
+        map._planets.push(
+          planet
+        );
     }
 
     return map;
