@@ -6,9 +6,9 @@ import {RoomState} from "../events/base";
 import {BatchSendEvent} from "../events/client_to_server";
 
 export const handleBatchSend = (event: BatchSendEvent, socket: Socket) => {
-  if (!socket.data.roomId || !socket.data.user)
+  if (socket.data.roomId == undefined || socket.data.user == undefined)
     return disconnectSocketWithError(socket, "Please, provide valid roomId and JWT token!");
-
+  
   const room = RoomsManager.getRoomById(socket.data.roomId);
   if (!room)
     return disconnectSocketWithError(socket, "Room does not exist!");

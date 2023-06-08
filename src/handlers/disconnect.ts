@@ -3,7 +3,7 @@ import {RoomsManager} from "../entities/rooms_manager";
 import {io} from "../app";
 
 export const handleDisconnect = (socket: Socket) => {
-  if (!socket.data.roomId || !socket.data.user)
+  if (socket.data.roomId === undefined || socket.data.user === undefined)
     return;
 
   const room = RoomsManager.getRoomById(socket.data.roomId);

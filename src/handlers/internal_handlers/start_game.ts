@@ -13,10 +13,12 @@ export const handleStartGame = (event: StartGameEvent) => {
 
   // Give all users random planets
   for (const user of room.users) {
-    const randomPlanet = room.map.planets.filter(
+    const sortedPlanetsByCount = room.map.planets.slice();
+    sortedPlanetsByCount.sort((planet1, planet2) => planet2.production-planet1.production);
+
+    const randomPlanet = sortedPlanetsByCount.filter(
       planet => planet.owner === null
     )[0];
-
 
     randomPlanet.owner = user;
     console.log(`Gave User ${user.id} a new planet ${randomPlanet.toJSON()} | Room ID: ${roomId}`);

@@ -75,8 +75,6 @@ export class Room {
   }
 
   private _handleGameEnd() {
-    if (this._batches.length !== 0) return
-
     const roomSockets = io.to(this._id.toString());
     const ownerIds = new Set();
 
@@ -86,9 +84,21 @@ export class Room {
           ownerIds.add(planet.owner.id);
     })
 
+    // console.log(ownerIds);
+
     if (ownerIds.size === 1) {
-      const winnerId = [...ownerIds.values()][0] as number;
-      const winner = this.getUserById(winnerId);
+      const winnerCandidateId = [...ownerIds.values()][0] as number;
+
+      const otherPlayersBatchesAliveIds = new Set(
+        this._batches.filter(
+          batch => batch.owner.id !== winnerCandidateId
+        )
+      );
+      
+      if (otherPlayersBatchesAliveIds.size > 0) 
+        return
+
+      const winner = this.getUserById(winnerCandidateId);
 
       this.state = RoomState.End;
       io.to(this._id.toString()).emit("RoomStateChangeEvent", {
@@ -106,8 +116,21 @@ export class Room {
     }
   }
 
+  private _cleanupRemovedUserPlanets() {
+    for (const planet of this._map.planets) {
+      if (planet.owner && !this.getUserById(planet.owner.id)) {
+        planet.owner = null;
+        io.to(this._id.toString()).emit("PlanetOccupiedEvent", {
+          planetId: planet.id,
+          newOwnerId: null
+        })
+      }
+    }
+  }
+
   public gameTickCallback(tickTime: number) {
     this._map.produceUnits(tickTime);
+    this._cleanupRemovedUserPlanets();
     this._updateBatchesTick(tickTime);
     this._handleBatchCollisions();
     this._handleGameEnd();
@@ -164,16 +187,20 @@ export class Room {
     if (!user) return
 
     this.map.getPlanetsByOwnerId(userId).forEach(planet => {
+      console.log(`Trying to destroy planet of user. Planet and user:`, planet, userId)
       planet.owner = null;
       const planetOccupiedEvent = planet.getOccupiedEvent(user);
+      console.log(`planetoccupied`, planetOccupiedEvent)
+
       if (planetOccupiedEvent)
         roomSockets.emit("PlanetOccupiedEvent", planetOccupiedEvent);
     })
 
     // TODO: Add complete user defeat
     for (let i = 0; i < this._users.length; i++) {
-      if (this._users[i].id == userId)
+      if (this._users[i].id == userId){
         this._users.splice(i, 1)
+      }
     }
   }
 
