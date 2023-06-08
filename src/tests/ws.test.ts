@@ -43,21 +43,21 @@ async function createClientSocket(token: string, roomId: number) {
 
   await new Promise((resolve, reject) => {
     client.on("connect", () => {
-      console.log("client connected")
-      resolve(client)
+      console.log("client connected");
+      resolve(client);
     });
     client.on("connect_error", (err: any) => {
-      console.error("client error", err)
-      reject(err)
+      console.error("client error", err);
+      reject(err);
     });
     client.on("disconnect", (err) => {
-      console.log("client disconnected", err)
-    })
+      console.log("client disconnected", roomId, err);
+    });
     // @ts-ignore
     client.on("ErrorEvent", (err) => {
-      console.log("client error event", err)
-    })
-  })
+      console.log("client error event", err);
+    });
+  });
   return client;
 }
 
@@ -75,7 +75,7 @@ beforeAll((done) => {
     clientSocket1 = await createClientSocket(token1, room1);
     clientSocket2 = await createClientSocket(token2, room1);
     clientSocket3 = await createClientSocket(token3, room2);
-    done()
+    done();
   });
 });
 
@@ -84,7 +84,7 @@ afterAll(() => {
   clientSocket1.close();
   clientSocket2.close();
   clientSocket3.close();
-  httpServer.closeAllConnections()
+  httpServer.closeAllConnections();
   httpServer.close();
 });
 
@@ -93,33 +93,29 @@ describe("room connection", () => {
 
   test("clients are connected", () => {
     expect(clientSocket1.connected).toBe(true);
-  })
-})
+  });
+});
+
 describe("chat", () => {
 
   test("user from another room cant read chat", async () => {
     const spy = jest.fn();
-    clientSocket3.on("ChatMessageEvent", spy)
+    clientSocket3.on("ChatMessageEvent", spy);
     expect(spy).not.toBeCalled();
-  })
+  });
 
   test("chat message gets emitted from one client to another", (done) => {
     clientSocket1.on("ChatMessageEvent", (arg) => {
       expect(arg.text).toBe("hello world");
-      done()
+      done();
     });
-    clientSocket2.emit("ChatMessageEvent", {text: "hello world"})
-  });
 
-
-  test("owner change", (done) => {
-    clientSocket2.on("RoomStateChangeEvent", (arg) => {
-      expect(arg.state).toBe(RoomState.Start);
-      done()
-    });
-    clientSocket1.emit('RoomStateChangeEvent', {state: RoomState.Start})
+    clientSocket2.emit("ChatMessageEvent", {text: "hello world"});
   });
-  // test("chat message gets emitted from server to all clients", (done) => {
+});
+
+describe("game", () => {
+  // test("non room owner cant start the game", (done) => {
   //   clientSocket2.on("RoomStateChangeEvent", (arg) => {
   //     expect(arg.state).toBe(RoomState.Start);
   //     done()
@@ -127,4 +123,44 @@ describe("chat", () => {
   //   clientSocket1.emit('RoomStateChangeEvent', {state: RoomState.Start})
   // });
 
-})
+  test("cant start game with one player", (done) => {
+    // @ts-ignore
+    clientSocket3.on("ErrorEvent", (arg) => {
+      expect(arg.message).toBeDefined();
+      done();
+    });
+    clientSocket3.emit("RoomStateChangeEvent", {state: RoomState.Start});
+  });
+
+  test("can't send batch before game starts", (done) => {
+    // @ts-ignore
+    clientSocket3.on("ErrorEvent", (arg) => {
+      expect(arg.message).toBeDefined();
+      done();
+    });
+
+    clientSocket3.emit("BatchSendEvent", {
+      count: 1,
+      currentY: 0,
+      currentX: 0,
+      fromX: 0,
+      fromY: 0,
+      toX: 0,
+      toY: 0,
+      ownerId: 0,
+      toPlanetId: 0,
+      fromPlanetId: 1,
+      newFromPlanetUnits: 4,
+      id: "",
+    });
+  });
+
+  test("game starts when 2+ players", (done) => {
+    clientSocket2.on("RoomStateChangeEvent", (arg) => {
+      expect(arg.state).toBe(RoomState.Start);
+      done();
+    });
+    clientSocket1.emit("RoomStateChangeEvent", {state: RoomState.Start});
+  });
+
+});
