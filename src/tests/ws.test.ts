@@ -12,10 +12,10 @@ let port: number;
 let planets: any[] = [];
 let planetIdRange = 8;
 
-function getNonOwnedPlanetId() {
-  const ownedPlanetIds = [...new Set(planets.map((planet) => planet.id))];
+async function getNonOwnedPlanetId() {
+  const ownedPlanetIds = [...new Set(planets.map((planet) => planet.planetId))];
   const randomPlanetId = Math.floor(Math.random() * planetIdRange);
-  if (ownedPlanetIds.includes(randomPlanetId))
+  if (ownedPlanetIds.includes(randomPlanetId)||ownedPlanetIds.length>2)
     return getNonOwnedPlanetId();
   return randomPlanetId;
 }
@@ -132,7 +132,7 @@ describe("chat", () => {
 
 describe("game", () => {
 
-  test("cant start game with one player", (done) => {
+  test("can't start game with one player", (done) => {
     clientSocket3.on("ErrorEvent", (arg) => {
       expect(arg.message).toBeDefined();
       done();
@@ -171,24 +171,20 @@ describe("game", () => {
   });
 
   test("can't send batch from planet you don't own", (done) => {
-    clientSocket2.on("ErrorEvent", (arg) => {
-      expect(arg.message).toBeDefined();
-      done();
-    });
+    (async () => {
+      clientSocket2.on("ErrorEvent", (arg) => {
+        expect(arg.message).toBeDefined();
+        done();
+      });
 
-    clientSocket2.emit("BatchSendEvent", {
-      count: 1,
-      currentY: 0,
-      currentX: 0,
-      fromX: 0,
-      fromY: 0,
-      toX: 10,
-      toY: 10,
-      ownerId: 10,
-      toPlanetId: 7,
-      fromPlanetId: getNonOwnedPlanetId(),
-      newFromPlanetUnits: 4,
-      id: "",
-    });
+      clientSocket2.emit("BatchSendEvent", {
+        count: 1,
+        ownerId: 10,
+        toPlanetId: 7,
+        fromPlanetId: getNonOwnedPlanetId(),
+        newFromPlanetUnits: 4,
+      });
+    })();
   });
+  
 });
